@@ -1,0 +1,184 @@
+#chat-container {
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 20px;
+  padding: 0;
+  margin-bottom: 50px;
+}
+
+/* Chat Header */
+
+#chat-header {
+  background: #ec4747;
+  border-radius: 20px 20px 0px 0px;
+  padding: 25px 35px;
+}
+
+#chat-header-icon-success {
+  vertical-align: baseline;
+  height: 40px;
+  width: 40px;
+}
+
+#chat-header-icon-search {
+  vertical-align: text-bottom;
+  height: 30px;
+  width: 30px;
+}
+
+#chat-header-icon-error {
+  vertical-align: text-bottom;
+  height: 30px;
+  width: 30px;
+}
+
+.chat-header-title {
+  color: #ffffff;
+  margin: 0;
+  font-family: "Ubuntu", sans-serif;
+}
+
+.chat-header-sub-title {
+  color: #ffffff;
+  margin: 0;
+  font-weight: 300;
+}
+
+#end-chat-btn {
+  border: 2px solid #ffffff;
+  box-sizing: border-box;
+  border-radius: 15px;
+  color: #ffffff;
+  background-color: #ec4747;
+  padding: 5px 12px;
+  font-size: 14px;
+}
+
+#end-chat-icon {
+  width: 20px;
+  height: 20px;
+  vertical-align: text-bottom;
+  margin-right: 7px;
+}
+
+.close-chat-icon {
+  width: 30px;
+  height: 30px;
+}
+
+/* Chat Body */
+
+#chat-body {
+  height: 60vh;
+  background: black;
+}
+
+/* Chat Footer */
+
+#chat-footer {
+  padding: 15px 20px;
+}
+
+#chat-input {
+  border-radius: 50px;
+  font-size: 16px;
+  line-height: 28px;
+  border: none;
+  color: #333333;
+  padding: 7px 20px;
+  width: 100%;
+  background: #efefef;
+  outline: none;
+}
+
+#photo-upload-btn {
+  background: none;
+  border: none;
+  margin: 0 7px 0 13px;
+}
+
+#video-upload-btn {
+  background: none;
+  border: none;
+}
+
+#photo-upload-btn img {
+  width: 23px;
+  height: 23px;
+}
+
+#video-upload-btn img {
+  width: 29px;
+  height: 29px;
+}
+
+/* -------------  Media Queries ------------ */
+
+@media only screen and (max-width: 768px) {
+  #chat-header-icon-success {
+    vertical-align: top;
+    height: 30px;
+    width: 30px;
+  }
+
+  #chat-header-icon-search {
+    vertical-align: top;
+    height: 27px;
+    width: 27px;
+  }
+
+  #chat-header-icon-error {
+    vertical-align: top;
+    height: 30px;
+    width: 30px;
+  }
+
+  .chat-header-title {
+    font-size: 23px;
+    width: 200px;
+  }
+
+  .chat-header-sub-title {
+    width: 200px;
+    font-size: 13px;
+  }
+}
+
+@media only screen and (max-width: 425px) {
+  .chat-header-title {
+    font-size: 20px;
+    width: 160px;
+  }
+
+  #end-chat-btn {
+    margin-top: 20px;
+    font-size: 12px;
+  }
+
+  #end-chat-icon {
+    width: 16px;
+    height: 16px;
+  }
+
+  #chat-footer {
+    padding: 15px 15px;
+  }
+
+  #photo-upload-btn {
+    margin: 0 5px 0 10px;
+  }
+
+  #chat-input {
+    font-size: 14px;
+    line-height: 25px;
+  }
+
+  #photo-upload-btn img {
+    width: 18px;
+    height: 18px;
+  }
+
+  #video-upload-btn img {
+    width: 24px;
+    height: 24px;
+  }
+}

@@ -1,0 +1,12 @@
+#logo {
+  height: 45px;
+  width: 45px;
+}
+
+#title {
+  font-size: 34px;
+  color: #111111;
+  margin-left: 12px;
+  line-height: 45px;
+  font-family: "Nunito", sans-serif;
+}
