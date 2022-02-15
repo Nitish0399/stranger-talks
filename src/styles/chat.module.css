@@ -69,7 +69,8 @@
 
 #chat-body {
   height: 60vh;
-  background: black;
+  padding: 15px 0;
+  position: relative;
 }
 
 /* Chat Footer */
@@ -109,6 +110,34 @@
 #video-upload-btn img {
   width: 29px;
   height: 29px;
+}
+
+/* Chat Message */
+
+.sent-msg {
+  display: inline-block;
+  background: #ec4747;
+  color: #ffffff;
+  padding: 10px 15px;
+  font-size: 14px;
+  margin: 5px 0;
+  border-radius: 20px 5px 20px 20px;
+  position: absolute;
+  right: 20px;
+  max-width: 300px;
+}
+
+.received-msg {
+  display: inline-block;
+  background: #efefef;
+  color: #111111;
+  padding: 10px 15px;
+  font-size: 14px;
+  margin: 5px 0;
+  border-radius: 5px 20px 20px 20px;
+  position: absolute;
+  left: 20px;
+  max-width: 300px;
 }
 
 /* -------------  Media Queries ------------ */
