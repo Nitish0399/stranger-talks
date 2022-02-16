@@ -1,11 +1,8 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React from 'react';
 import styles from "../styles/chat.module.css";
 
 class ChatMsg extends React.Component {
-  constructor(props) {
-    super(props);
-  }
+
   render() {
     let msgStyleClassName = "sent-msg";
 
@@ -13,7 +10,7 @@ class ChatMsg extends React.Component {
       msgStyleClassName = "received-msg";
     }
 
-    return (<div className={styles[msgStyleClassName]}>
+    return (<div className={`${styles["chat-msg"]} ${styles[msgStyleClassName]}`}>
       <span>{this.props.message}</span>
     </div>);
   }

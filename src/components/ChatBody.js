@@ -7,6 +7,8 @@ class ChatBody extends React.Component {
     return (<div id={styles['chat-body']}>
       <ChatMsg message="Hey, Where are  you from?" msgType="Received"/>
       <ChatMsg message="Hii, I am from India!" msgType="Sent"/>
+      <ChatMsg message="Hey, Where are  you from?" msgType="Received"/>
+      <ChatMsg message="Hii, I am from India!" msgType="Sent"/>
     </div>);
   }
 }
