@@ -7,7 +7,6 @@ import successIcon from "../images/success-icon.svg";
 import searchIcon from "../images/search-icon.svg";
 
 class ChatHeader extends React.Component {
-
   render() {
     let child;
     if (this.props.headerType === "Connected") {
@@ -20,19 +19,14 @@ class ChatHeader extends React.Component {
     return ({
       ...child
     });
-
   }
-
 }
 
 function ChatHeaderConnected() {
   return (<div id={styles['chat-header']} className="d-flex justify-content-between align-items-center flex-wrap">
     <div className="flex-fill">
       <img src={successIcon} id={styles['chat-header-icon-success']} alt="Chat Header Icon"/>
-      <div className="d-inline-block" style={{
-          marginLeft: "15px",
-          width: "calc(100% - 58px)"
-        }}>
+      <div className={styles['chat-header-main']}>
         <h3 className={styles['chat-header-title']}>Connected!</h3>
         <p className={styles['chat-header-sub-title']}>You can start sending messages to the stranger now.</p>
       </div>
@@ -44,10 +38,10 @@ function ChatHeaderConnected() {
 }
 
 function ChatHeaderSearching() {
-  return (<div id={styles['chat-header']} className="d-flex justify-content-between align-items-center">
+  return (<div id={styles['chat-header']} className="d-flex justify-content-between align-items-center flex-wrap">
     <div>
       <img src={searchIcon} id={styles['chat-header-icon-search']} alt="Chat Header Icon"/>
-      <div className="d-inline-block ms-3">
+      <div className={styles['chat-header-main']}>
         <h3 className={styles['chat-header-title']}>Searching...</h3>
       </div>
     </div>
@@ -59,13 +53,13 @@ function ChatHeaderSearching() {
 
 function ChatHeaderFailed() {
   return (<div id={styles['chat-header']} className="d-flex justify-content-between align-items-center">
-    <div>
+    <div className="flex-fill">
       <img src={errorIcon} id={styles['chat-header-icon-error']} alt="Chat Header Icon"/>
-      <div className="d-inline-block ms-3">
-        <h3 className={styles['chat-header-title']}>Could not find strangers :(</h3>
+      <div className={styles['chat-header-main']}>
+        <h3 className={styles['chat-header-title']}>No strangers available at this moment</h3>
       </div>
     </div>
-    <Link to="/">
+    <Link to="/" className="m-auto m-sm-0">
       <img className={styles['close-chat-icon']} src={closeIcon} alt="End Chat Icon"/>
     </Link>
   </div>);

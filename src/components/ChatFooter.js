@@ -6,7 +6,11 @@ import videoIcon from "../images/video-icon.svg";
 
 class ChatFooter extends React.Component {
   render() {
-    return (<div id={styles['chat-footer']} className="d-flex justify-content-between align-items-center">
+    let footerState = "d-block"; // footer visible
+    if (this.props.headerType != "Connected") {
+      footerState = "d-none";
+    }
+    return (<div id={styles['chat-footer']} className={`d-flex justify-content-between align-items-center ${footerState}`}>
       <div id={styles['chat-input']} className="flex-grow-1">
         <input type="text" placeholder="Type your message here"/>
         <button type="button" id={styles['send-btn']}><img src={sendIcon} alt="Send Icon"/></button>

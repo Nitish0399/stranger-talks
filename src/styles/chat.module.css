@@ -31,13 +31,19 @@
   width: 30px;
 }
 
-.chat-header-title {
+.chat-header-main {
+  display: inline-block;
+  margin-left: 15px;
+  width: calc(100% - 58px);
+}
+
+.chat-header-main h3 {
   color: #ffffff;
   margin: 0;
   font-family: "Ubuntu", sans-serif;
 }
 
-.chat-header-sub-title {
+.chat-header-main p {
   color: #ffffff;
   margin: 0;
   font-weight: 300;
@@ -70,7 +76,20 @@
 #chat-body {
   height: 60vh;
   padding: 15px 0;
-  /* position: relative; */
+}
+
+#loader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+#failed-chat-body-text {
+  font-size: 15px;
+  text-align: center;
+  color: #4f4f4f;
+  margin-top: 25%;
 }
 
 /* Chat Footer */
@@ -175,11 +194,12 @@
     width: 30px;
   }
 
-  .chat-header-title {
+  .chat-header-main h3 {
     font-size: 23px;
+    line-height: 30px;
   }
 
-  .chat-header-sub-title {
+  .chat-header-main p {
     font-size: 13px;
   }
 
@@ -189,9 +209,29 @@
 }
 
 @media only screen and (max-width: 425px) {
-  .chat-header-title {
+  #chat-header-icon-success {
+    height: 27px;
+    width: 27px;
+  }
+
+  #chat-header-icon-search {
+    height: 24px;
+    width: 24px;
+  }
+
+  #chat-header-icon-error {
+    height: 27px;
+    width: 27px;
+  }
+
+  .chat-header-main {
+    margin-left: 10px;
+  }
+
+  .chat-header-main h3 {
     font-size: 20px;
     margin-bottom: 2px;
+    line-height: 25px;
   }
 
   #end-chat-btn {
@@ -204,8 +244,18 @@
     height: 16px;
   }
 
+  .close-chat-icon {
+    width: 27px;
+    height: 27px;
+  }
+
   .chat-msg {
     max-width: 200px;
+  }
+
+  #failed-chat-body-text {
+    font-size: 13px;
+    margin-top: 35%;
   }
 
   #chat-footer {

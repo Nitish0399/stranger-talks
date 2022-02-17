@@ -7,11 +7,12 @@ import styles from "../styles/chat.module.css";
 
 class Chat extends React.Component {
   render() {
+    let headerType = "Cdonnected";
     return (<div>
       <Container id={styles['chat-container']}>
-        <ChatHeader headerType="Connected"/>
-        <ChatBody/>
-        <ChatFooter/>
+        <ChatHeader headerType={headerType}/>
+        <ChatBody headerType={headerType}/>
+        <ChatFooter headerType={headerType}/>
       </Container>
     </div>);
   }
