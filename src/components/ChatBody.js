@@ -4,6 +4,7 @@ import ChatMsg from "../components/ChatMsg";
 import {Rings} from 'react-loader-spinner';
 
 class ChatBody extends React.Component {
+
   render() {
     let child;
     if (this.props.headerType === "Connected") {
@@ -13,9 +14,9 @@ class ChatBody extends React.Component {
     } else {
       child = <ChatBodyFailed/>;
     }
-    return ({
+    return {
       ...child
-    });
+    };
   }
 }
 
@@ -38,7 +39,7 @@ function ChatBodySearching() {
 
 function ChatBodyFailed() {
   return (<div id={styles['chat-body']}>
-    <p id={styles['failed-chat-body-text']}>No one is available at this moment to connect..</p>
+    <p id={styles['failed-chat-body-text']}>No one is available at this moment to connect.</p>
   </div>);
 }
 
