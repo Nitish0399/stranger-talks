@@ -7,6 +7,18 @@
   font-size: 34px;
   color: #111111;
   margin-left: 12px;
-  line-height: 45px;
+  line-height: 47px;
   font-family: "Nunito", sans-serif;
+}
+
+@media only screen and (max-width: 425px) {
+  #logo {
+    height: 40px;
+    width: 40px;
+  }
+
+  #title {
+    font-size: 30px;
+    line-height: 43px;
+  }
 }

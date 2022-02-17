@@ -7,9 +7,6 @@ import successIcon from "../images/success-icon.svg";
 import searchIcon from "../images/search-icon.svg";
 
 class ChatHeader extends React.Component {
-  constructor(props) {
-    super(props);
-  }
 
   render() {
     let child;
@@ -30,9 +27,12 @@ class ChatHeader extends React.Component {
 
 function ChatHeaderConnected() {
   return (<div id={styles['chat-header']} className="d-flex justify-content-between align-items-center flex-wrap">
-    <div>
+    <div className="flex-fill">
       <img src={successIcon} id={styles['chat-header-icon-success']} alt="Chat Header Icon"/>
-      <div className="d-inline-block ms-3">
+      <div className="d-inline-block" style={{
+          marginLeft: "15px",
+          width: "calc(100% - 58px)"
+        }}>
         <h3 className={styles['chat-header-title']}>Connected!</h3>
         <p className={styles['chat-header-sub-title']}>You can start sending messages to the stranger now.</p>
       </div>
