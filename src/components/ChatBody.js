@@ -1,6 +1,7 @@
 import React from 'react'
 import styles from "../styles/chat.module.css";
 import ChatMsg from "../components/ChatMsg";
+import ChatMetaMsg from "../components/ChatMetaMsg";
 import {Rings} from 'react-loader-spinner';
 
 class ChatBody extends React.Component {
@@ -23,9 +24,36 @@ class ChatBody extends React.Component {
 function ChatBodyConnected() {
   return (<div id={styles['chat-body']}>
     <ChatMsg message="Hey, Where are  you from?" msgType="Received"/>
-    <ChatMsg message="Hii, I am from India!" msgType="Sent"/>
+    <ChatMsg message="Heloo, I am from India!" msgType="Sent"/>
+    <ChatMsg message="Cool, I am too from India" msgType="Received"/>
+    <ChatMetaMsg message="Sharing photo request sent"/>
+    <ChatMetaMsg message="Stranger sent photo sharing request"/>
+    <ChatMsg message="Thats amazing :)"/>
+    <ChatMetaMsg message="You approved the request"/>
+    <ChatMetaMsg message="Stranger approved your request"/>
     <ChatMsg message="Hey, Where are  you from?" msgType="Received"/>
-    <ChatMsg message="Hii, I am from India!" msgType="Sent"/>
+    <ChatMsg message="Heloo, I am from India!" msgType="Sent"/>
+    <ChatMsg message="Cool, I am too from India" msgType="Received"/>
+    <ChatMetaMsg message="Sharing photo request sent"/>
+    <ChatMetaMsg message="Stranger sent photo sharing request"/>
+    <ChatMsg message="Thats amazing :)"/>
+    <ChatMetaMsg message="You approved the request"/>
+    <ChatMetaMsg message="Stranger approved your request"/>
+    <ChatMsg message="Hey, Where are  you from?" msgType="Received"/>
+    <ChatMsg message="Heloo, I am from India!" msgType="Sent"/>
+    <ChatMsg message="Cool, I am too from India" msgType="Received"/>
+    <ChatMetaMsg message="Sharing photo request sent"/>
+    <ChatMetaMsg message="Stranger sent photo sharing request"/>
+    <ChatMsg message="Thats amazing :)"/>
+    <ChatMetaMsg message="You approved the request"/>
+    <ChatMetaMsg message="Stranger approved your request"/><ChatMsg message="Hey, Where are  you from?" msgType="Received"/>
+    <ChatMsg message="Heloo, I am from India!" msgType="Sent"/>
+    <ChatMsg message="Cool, I am too from India" msgType="Received"/>
+    <ChatMetaMsg message="Sharing photo request sent"/>
+    <ChatMetaMsg message="Stranger sent photo sharing request"/>
+    <ChatMsg message="Thats amazing :)"/>
+    <ChatMetaMsg message="You approved the request"/>
+    <ChatMetaMsg message="Stranger approved your request"/>
   </div>);
 }
 

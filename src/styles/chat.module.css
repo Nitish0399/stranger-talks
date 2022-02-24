@@ -11,6 +11,9 @@
   background: #ec4747;
   border-radius: 20px 20px 0px 0px;
   padding: 25px 35px;
+  -webkit-box-shadow: 0 8px 6px -6px rgba(0, 0, 0, 0.25);
+  -moz-box-shadow: 0 8px 6px -6px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 8px 6px -6px rgba(0, 0, 0, 0.25);
 }
 
 #chat-header-icon-success {
@@ -75,7 +78,15 @@
 
 #chat-body {
   height: 60vh;
-  padding: 20px 0;
+  padding: 20px 0 0 0;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  transition: color 0.3s ease;
+  color: rgba(0, 0, 0, 0);
+}
+
+#chat-body:hover {
+  color: rgba(0, 0, 0, 0.3);
 }
 
 #loader {
@@ -153,25 +164,42 @@
   padding: 10px 15px;
   font-size: 14px;
   max-width: 300px;
+  display: inline-block;
 }
 
 .sent-msg {
   background: #ec4747;
   color: #ffffff;
   border-radius: 20px 5px 20px 20px;
-  margin: 0 20px 15px auto;
+  margin: 10px 20px 10px auto;
 }
 
 .received-msg {
   background: #efefef;
   color: #111111;
   border-radius: 5px 20px 20px 20px;
-  margin: 0 auto 15px 20px;
+  margin: 10px auto 10px 20px;
+}
+
+/* Chat Meta Message */
+
+.chat-meta-msg {
+  font-size: 12px;
+  line-height: 17px;
+  color: #787878;
+  max-width: 300px;
+  text-align: center;
+  display: block;
+  margin: auto;
 }
 
 /* -------------  Media Queries ------------ */
 
 @media only screen and (max-width: 768px) {
+  #chat-container {
+    margin-bottom: 35px;
+  }
+
   #chat-header {
     padding: 20px 25px;
   }
@@ -209,6 +237,11 @@
 }
 
 @media only screen and (max-width: 425px) {
+  #chat-container {
+    border-radius: 20px 20px 0 0;
+    margin-bottom: 0px;
+  }
+
   #chat-header-icon-success {
     height: 27px;
     width: 27px;

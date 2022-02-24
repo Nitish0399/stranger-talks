@@ -10,8 +10,10 @@ class ChatMsg extends React.Component {
       msgStyleClassName = "received-msg";
     }
 
-    return (<div className={`${styles["chat-msg"]} ${styles[msgStyleClassName]}`}>
-      <span>{this.props.message}</span>
+    return (<div className="d-flex">
+      <div className={`${styles["chat-msg"]} ${styles[msgStyleClassName]}`}>
+        <span>{this.props.message}</span>
+      </div>
     </div>);
   }
 }
