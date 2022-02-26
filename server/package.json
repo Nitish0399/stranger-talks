@@ -1,5 +1,5 @@
 {
-  "name": "stranger-talks",
+  "name": "stranger-talks-server",
   "version": "1.0.0",
   "description": "Server of Stranger Talks App",
   "main": "app.js",
@@ -7,6 +7,10 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC"
+  "author": "G. Nitish",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.3",
+    "nodemon": "^2.0.15"
+  }
 }

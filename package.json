@@ -1,0 +1,25 @@
+{
+  "name": "stranger-talks",
+  "version": "1.0.0",
+  "description": "Stranger Talks Application",
+  "main": "index.js",
+  "scripts": {
+    "dev": "concurrently \"cd client && npm run start\" \"cd server && nodemon app\"",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Nitish0399/stranger-talks.git"
+  },
+  "keywords": [
+    "React",
+    "Node",
+    "Sockets"
+  ],
+  "author": "G. Nitish",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Nitish0399/stranger-talks/issues"
+  },
+  "homepage": "https://github.com/Nitish0399/stranger-talks#readme"
+}
