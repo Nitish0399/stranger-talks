@@ -19,10 +19,20 @@ class ChatBody extends React.Component {
       ...child
     };
   }
+  //
+  // componentDidMount() {
+  //   this.updateScroll();
+  // }
+
 }
 
 function ChatBodyConnected() {
-  return (<div id={styles['chat-body']}>
+
+  function scrollToBottom(element) {
+    element.scrollTop = element.scrollHeight;
+  }
+
+  return (<div id={styles['chat-body']} ref={el => scrollToBottom(el)}>
     <ChatMsg message="Hey, Where are  you from?" msgType="Received"/>
     <ChatMsg message="Heloo, I am from India!" msgType="Sent"/>
     <ChatMsg message="Cool, I am too from India" msgType="Received"/>
