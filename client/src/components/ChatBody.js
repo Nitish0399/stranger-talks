@@ -29,7 +29,9 @@ class ChatBody extends React.Component {
 function ChatBodyConnected() {
 
   function scrollToBottom(element) {
-    element.scrollTop = element.scrollHeight;
+    if (element != null) {
+      element.scrollTop = element.scrollHeight;
+    }
   }
 
   return (<div id={styles['chat-body']} ref={el => scrollToBottom(el)}>
