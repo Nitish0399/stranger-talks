@@ -6,6 +6,12 @@ import chatIllustrationImage from "../images/chat-illustration.svg";
 import developerImage from "../images/developer-image.jpg";
 
 class Home extends React.Component {
+  constructor(props) {
+    super(props);
+    this.chatSocket = props.chatSocket;
+    this.connectStranger = this.connectStranger.bind(this);
+  }
+
   render() {
     return (<div className="pb-3">
       <Container className="d-flex justify-content-center justify-content-md-between justify-content-xl-evenly align-items-center flex-wrap flex-md-nowrap">
@@ -14,7 +20,7 @@ class Home extends React.Component {
           <p id={styles["app-description"]}>Connect with people around the world. Have engaging communication by sharing photos and videos.
           </p>
           <Link to="chat">
-            <button id={styles['start-chat-btn']}>Connect with a Stranger now</button>
+            <button id={styles['start-chat-btn']} onClick={this.connectStranger}>Connect with a Stranger now</button>
           </Link>
         </div>
         <div>
@@ -30,6 +36,10 @@ class Home extends React.Component {
         </div>
       </Container>
     </div>);
+  }
+
+  connectStranger() {
+    this.props.chatSocket.connectStranger();
   }
 }
 

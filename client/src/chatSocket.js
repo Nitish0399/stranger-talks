@@ -4,16 +4,16 @@ class ChatSocket {
     this.socket = socket;
   }
 
-  searchStrangers() {
-    socket.emit('chat:connect');
+  connectStranger() {
+    this.socket.emit('chat:connect');
   }
 
   messageStranger(message) {
-    socket.emit('chat:message', message);
+    this.socket.emit('chat:message', message);
   }
 
   disconnectChat() {
-    socket.emit('chat:disconnect');
+    this.socket.emit('chat:disconnect');
   }
 }
 

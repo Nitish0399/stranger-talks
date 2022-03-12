@@ -12,12 +12,20 @@ import {BrowserRouter, Routes, Route} from "react-router-dom";
 
 const {io} = require("socket.io-client");
 
+// Initializing socket.io
+const socket = io("http://localhost:3001");
+const chatSocket = new ChatSocket(io, socket);
+
 ReactDOM.render(<React.StrictMode>
   <BrowserRouter>
     <Routes>
       <Route exact="exact" path="/" element={<App />}>
-        <Route index="index" element={<Home />}/>
-        <Route path="chat" element={<Chat />}/>
+        <Route index="index" element={<Home chatSocket = {
+            chatSocket
+          } />}/>
+        <Route path="chat" element={<Chat chatSocket = {
+            chatSocket
+          } />}/>
       </Route>
       <Route path="*" element={<NotFound />}/>
     </Routes>
@@ -28,7 +36,3 @@ ReactDOM.render(<React.StrictMode>
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();
-
-// Initializing socket.io
-const socket = io("http://localhost:3001");
-new ChatSocket(io, socket);
