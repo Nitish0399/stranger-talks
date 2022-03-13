@@ -20,21 +20,5 @@ ReactDOM.render(<React.StrictMode>
   <BrowserRouter>
     <Routes>
       <SocketContext.Provider value={chatSocket}>
-        <Route exact="exact" path="/" element={<App />}>
-          <Route index="index" element={<Home chatSocket = {
-              chatSocket
-            } />}/>
-          <Route path="chat" element={<Chat chatSocket = {
-              chatSocket
-            } />}/>
-        </Route>
-      </SocketContext.Provider>
-      <Route path="*" element={<NotFound />}/>
-    </Routes>
-  </BrowserRouter>
-</React.StrictMode>, document.getElementById("root"));
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+        <Route path="/" element={<App />}>
+          <Rout index="index">
