@@ -1,11 +1,14 @@
 import React from 'react'
 import {Link} from "react-router-dom";
 import {Container} from 'react-bootstrap';
+import {SocketContext} from "../context.js";
 import styles from "../styles/home.module.css";
 import chatIllustrationImage from "../images/chat-illustration.svg";
 import developerImage from "../images/developer-image.jpg";
 
 class Home extends React.Component {
+  static contextType = SocketContext;
+
   constructor(props) {
     super(props);
     this.chatSocket = props.chatSocket;
@@ -39,7 +42,7 @@ class Home extends React.Component {
   }
 
   connectStranger() {
-    this.props.chatSocket.connectStranger();
+    this.context.connectStranger();
   }
 }
 
