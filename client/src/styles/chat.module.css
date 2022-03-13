@@ -52,23 +52,6 @@
   font-weight: 300;
 }
 
-#end-chat-btn {
-  border: 2px solid #ffffff;
-  box-sizing: border-box;
-  border-radius: 15px;
-  color: #ffffff;
-  background-color: #ec4747;
-  padding: 5px 12px;
-  font-size: 14px;
-}
-
-#end-chat-icon {
-  width: 20px;
-  height: 20px;
-  vertical-align: text-bottom;
-  margin-right: 7px;
-}
-
 .close-chat-icon {
   width: 30px;
   height: 30px;
@@ -265,16 +248,6 @@
     font-size: 20px;
     margin-bottom: 2px;
     line-height: 25px;
-  }
-
-  #end-chat-btn {
-    margin-top: 20px;
-    font-size: 12px;
-  }
-
-  #end-chat-icon {
-    width: 16px;
-    height: 16px;
   }
 
   .close-chat-icon {

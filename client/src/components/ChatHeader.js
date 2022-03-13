@@ -1,5 +1,6 @@
 import React from 'react'
 import {Link} from "react-router-dom";
+import {SocketContext} from "../context.js";
 import styles from "../styles/chat.module.css";
 import closeIcon from "../images/close-icon.svg";
 import errorIcon from "../images/error-icon.svg";
@@ -31,9 +32,7 @@ function ChatHeaderConnected() {
         <p className={styles['chat-header-sub-title']}>You can start sending messages to the stranger now.</p>
       </div>
     </div>
-    <Link to="/" className="m-auto m-sm-0">
-      <button type="button" id={styles['end-chat-btn']}><img id={styles['end-chat-icon']} src={closeIcon} alt="End Chat Icon"/>End Chat</button>
-    </Link>
+    <CloseChatButton/>
   </div>);
 }
 
@@ -45,9 +44,7 @@ function ChatHeaderSearching() {
         <h3 className={styles['chat-header-title']}>Searching...</h3>
       </div>
     </div>
-    <Link to="/">
-      <img className={styles['close-chat-icon']} src={closeIcon} alt="End Chat Icon"/>
-    </Link>
+    <CloseChatButton/>
   </div>);
 }
 
@@ -59,10 +56,22 @@ function ChatHeaderFailed() {
         <h3 className={styles['chat-header-title']}>No strangers available at this moment</h3>
       </div>
     </div>
-    <Link to="/" className="m-auto m-sm-0">
-      <img className={styles['close-chat-icon']} src={closeIcon} alt="End Chat Icon"/>
-    </Link>
+    <CloseChatButton/>
   </div>);
+}
+
+function CloseChatButton() {
+  function disconnectChat(chatSocket) {
+    chatSocket.disconnectChat();
+  }
+
+  return (<SocketContext.Consumer>
+    {
+      chatSocket => (<Link to="/" className="m-auto m-sm-0" onClick={() => disconnectChat(chatSocket)}>
+        <img className={styles['close-chat-icon']} src={closeIcon} alt="End Chat Icon"/>
+      </Link>)
+    }
+  </SocketContext.Consumer>);
 }
 
 export default ChatHeader;

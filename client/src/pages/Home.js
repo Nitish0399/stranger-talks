@@ -11,7 +11,6 @@ class Home extends React.Component {
 
   constructor(props) {
     super(props);
-    this.chatSocket = props.chatSocket;
     this.connectStranger = this.connectStranger.bind(this);
   }
 

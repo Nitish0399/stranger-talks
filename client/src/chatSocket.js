@@ -6,6 +6,7 @@ class ChatSocket {
 
   connectStranger() {
     this.socket.emit('chat:connect');
+    console.log("connect");
   }
 
   messageStranger(message) {
@@ -13,6 +14,7 @@ class ChatSocket {
   }
 
   disconnectChat() {
+    console.log("disconnect");
     this.socket.emit('chat:disconnect');
   }
 }
