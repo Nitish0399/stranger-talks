@@ -61,17 +61,15 @@ function ChatHeaderFailed() {
 }
 
 function CloseChatButton() {
-  function disconnectChat(chatSocket) {
+  const chatSocket = React.useContext(SocketContext);
+
+  function disconnectChat() {
     chatSocket.disconnectChat();
   }
 
-  return (<SocketContext.Consumer>
-    {
-      chatSocket => (<Link to="/" className="m-auto m-sm-0" onClick={() => disconnectChat(chatSocket)}>
-        <img className={styles['close-chat-icon']} src={closeIcon} alt="End Chat Icon"/>
-      </Link>)
-    }
-  </SocketContext.Consumer>);
+  return (<Link to="/" className="m-auto m-sm-0" onClick={() => disconnectChat(chatSocket)}>
+    <img className={styles['close-chat-icon']} src={closeIcon} alt="Close Chat Icon"/>
+  </Link>);
 }
 
 export default ChatHeader;

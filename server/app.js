@@ -19,9 +19,16 @@ const io = new Server(server, {
 
 const socketHandler = require("./socket.js");
 
+// Maintain the state of stranger sockets
+var strangersState = {
+  availableStrangers: [],
+  connectedStrangers: {},
+  searchStrangersDuration: 10000 // in milliseconds
+};
+
 io.on("connection", (socket) => {
   console.log('Stranger connected to socket server', socket.id);
-  socketHandler(io, socket);
+  socketHandler(io, socket, strangersState);
 });
 
 server.listen(PORT, () => {

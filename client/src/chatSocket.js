@@ -5,8 +5,8 @@ class ChatSocket {
   }
 
   connectStranger() {
-    this.socket.emit('chat:connect');
     console.log("connect");
+    this.socket.emit('chat:connect');
   }
 
   messageStranger(message) {

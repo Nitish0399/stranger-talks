@@ -1,4 +1,5 @@
-import React from 'react'
+import React from 'react';
+import {SocketContext} from "../context.js";
 import styles from "../styles/chat.module.css";
 import ChatMsg from "../components/ChatMsg";
 import ChatMetaMsg from "../components/ChatMetaMsg";
@@ -19,14 +20,16 @@ class ChatBody extends React.Component {
       ...child
     };
   }
-  //
-  // componentDidMount() {
-  //   this.updateScroll();
-  // }
 
 }
 
 function ChatBodyConnected() {
+
+  const chatSocket = React.useContext(SocketContext);
+
+  chatSocket.socket.on('chat:message', function(message) {
+    console.log(message);
+  })
 
   function scrollToBottom(element) {
     if (element != null) {
