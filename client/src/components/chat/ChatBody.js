@@ -1,12 +1,11 @@
-import React from 'react';
-import {SocketContext} from "../context.js";
-import styles from "../styles/chat.module.css";
-import ChatMsg from "../components/ChatMsg";
-import ChatMetaMsg from "../components/ChatMetaMsg";
-import {Rings} from 'react-loader-spinner';
+import React from "react";
+import {SocketContext} from "../../context.js";
+import styles from "../../styles/chat.module.css";
+import ChatMsg from "./ChatMsg";
+import ChatMetaMsg from "./ChatMetaMsg";
+import {Rings} from "react-loader-spinner";
 
 class ChatBody extends React.Component {
-
   render() {
     let child;
     if (this.props.headerType === "Connected") {
@@ -20,16 +19,14 @@ class ChatBody extends React.Component {
       ...child
     };
   }
-
 }
 
 function ChatBodyConnected() {
-
   const chatSocket = React.useContext(SocketContext);
 
-  chatSocket.socket.on('chat:message', function(message) {
+  chatSocket.socket.on("chat:message", function(message) {
     console.log(message);
-  })
+  });
 
   function scrollToBottom(element) {
     if (element != null) {
@@ -37,7 +34,7 @@ function ChatBodyConnected() {
     }
   }
 
-  return (<div id={styles['chat-body']} ref={el => scrollToBottom(el)}>
+  return (<div id={styles["chat-body"]} ref={el => scrollToBottom(el)}>
     <ChatMsg message="Hey, Where are  you from?" msgType="Received"/>
     <ChatMsg message="Heloo, I am from India!" msgType="Sent"/>
     <ChatMsg message="Cool, I am too from India" msgType="Received"/>
@@ -61,7 +58,8 @@ function ChatBodyConnected() {
     <ChatMetaMsg message="Stranger sent photo sharing request"/>
     <ChatMsg message="Thats amazing :)"/>
     <ChatMetaMsg message="You approved the request"/>
-    <ChatMetaMsg message="Stranger approved your request"/><ChatMsg message="Hey, Where are  you from?" msgType="Received"/>
+    <ChatMetaMsg message="Stranger approved your request"/>
+    <ChatMsg message="Hey, Where are  you from?" msgType="Received"/>
     <ChatMsg message="Heloo, I am from India!" msgType="Sent"/>
     <ChatMsg message="Cool, I am too from India" msgType="Received"/>
     <ChatMetaMsg message="Sharing photo request sent"/>
@@ -73,16 +71,18 @@ function ChatBodyConnected() {
 }
 
 function ChatBodySearching() {
-  return (<div id={styles['chat-body']}>
-    <div id={styles['loader']}>
-      <Rings height="70" width="70" color='#909090' className="justify-content-center" ariaLabel='loading'/>
+  return (<div id={styles["chat-body"]}>
+    <div id={styles["loader"]}>
+      <Rings height="70" width="70" color="#909090" className="justify-content-center" ariaLabel="loading"/>
     </div>
   </div>);
 }
 
 function ChatBodyFailed() {
-  return (<div id={styles['chat-body']}>
-    <p id={styles['failed-chat-body-text']}>No one is available at this moment to connect.</p>
+  return (<div id={styles["chat-body"]}>
+    <p id={styles["failed-chat-body-text"]}>
+      No one is available at this moment to connect.
+    </p>
   </div>);
 }
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from "../styles/chat.module.css";
+import styles from "../../styles/chat.module.css";
 
 class ChatMetaMsg extends React.Component {
 
