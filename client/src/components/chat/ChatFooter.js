@@ -15,66 +15,43 @@ class ChatFooter extends React.Component {
     super(props);
     this.state = {
       messageInput: "",
-      requestModal: false,
-      resourceRequestType: "photo"
+      // requestModal: false,
+      // resourceRequestType: "photo"
     };
 
     this.handleMessageInputChange = this.handleMessageInputChange.bind(this);
     this.sendMessage = this.sendMessage.bind(this);
-    this.shareResource = this.shareResource.bind(this);
-    this.closeModal = this.closeModal.bind(this);
+    // this.shareResource = this.shareResource.bind(this);
+    // this.closeModal = this.closeModal.bind(this);
   }
 
   render() {
     let footerState = "d-block"; // footer visible
-    if (this.props.headerType !== "Connected") {
+    if (this.props.chatStatus !== "Connected") {
       footerState = "d-none"; // footer hidden
     }
 
-    return (
-      <div>
-        <div
-          id={styles["chat-footer"]}
-          className={`d-flex justify-content-between align-items-center ${footerState}`}
-        >
-          <div id={styles["chat-input"]} className="flex-grow-1">
-            <input
-              type="text"
-              value={this.state.messageInput}
-              placeholder="Type your message here"
-              onChange={this.handleMessageInputChange}
-            />
-            <button
-              type="button"
-              id={styles["send-btn"]}
-              onClick={this.sendMessage}
-            >
-              <img src={sendIcon} alt="Send Icon" />
-            </button>
-          </div>
-          <button type="button" id={styles["photo-upload-btn"]}>
-            <img
-              src={photoIcon}
-              alt="Photo Icon"
-              onClick={() => this.shareResource("photo")}
-            />
-          </button>
-          <button type="button" id={styles["video-upload-btn"]}>
-            <img
-              src={videoIcon}
-              alt="Video Icon"
-              onClick={() => this.shareResource("video")}
-            />
+    return (<div>
+      <div id={styles["chat-footer"]} className={`d-flex justify-content-between align-items-center ${footerState}`}>
+        <div id={styles["chat-input"]} className="flex-grow-1">
+          <input type="text" value={this.state.messageInput} placeholder="Type your message here" onChange={this.handleMessageInputChange}/>
+          <button type="button" id={styles["send-btn"]} onClick={this.sendMessage}>
+            <img src={sendIcon} alt="Send Icon"/>
           </button>
         </div>
-
-        <ShareResourceResponseModal
-          resourceType={this.state.resourceRequestType}
-          show={this.state.requestModal}
-          onHide={this.closeModal}
-        />
+        {/*
+        <button type="button" id={styles["photo-upload-btn"]}>
+          <img src={photoIcon} alt="Photo Icon" onClick={() => this.shareResource("photo")}/>
+        </button>
+        <button type="button" id={styles["video-upload-btn"]}>
+          <img src={videoIcon} alt="Video Icon" onClick={() => this.shareResource("video")}/>
+        </button>
+        */
+        }
       </div>
-    );
+
+      {/* <ShareResourceResponseModal resourceType={this.state.resourceRequestType} show={this.state.requestModal} onHide={this.closeModal}/> */}
+    </div>);
   }
 
   handleMessageInputChange(e) {
@@ -86,12 +63,12 @@ class ChatFooter extends React.Component {
     this.setState({messageInput: ""});
   }
 
-  shareResource(resourceRequestType) {
-    this.setState({requestModal: true, resourceRequestType});
-  }
-
-  closeModal() {
-    this.setState({requestModal: false});
-  }
+  // shareResource(resourceRequestType) {
+  //   this.setState({requestModal: true, resourceRequestType});
+  // }
+  //
+  // closeModal() {
+  //   this.setState({requestModal: false});
+  // }
 }
 export default ChatFooter;

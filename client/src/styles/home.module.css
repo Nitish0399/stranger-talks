@@ -79,4 +79,8 @@
   #developer-data {
     margin-top: 10px;
   }
+
+  #start-chat-btn {
+    font-size: 14px;
+  }
 }

@@ -1,6 +1,7 @@
 import React from "react";
 import {SocketContext} from "../../context.js";
 import styles from "../../styles/chat.module.css";
+import {Link} from "react-router-dom";
 import ChatMsg from "./ChatMsg";
 import ChatMetaMsg from "./ChatMetaMsg";
 import {Rings} from "react-loader-spinner";
@@ -8,12 +9,14 @@ import {Rings} from "react-loader-spinner";
 class ChatBody extends React.Component {
   render() {
     let child;
-    if (this.props.headerType === "Connected") {
+    if (this.props.chatStatus === "Connected") {
       child = <ChatBodyConnected/>;
-    } else if (this.props.headerType === "Searching") {
+    } else if (this.props.chatStatus === "Searching") {
       child = <ChatBodySearching/>;
+    } else if (this.props.chatStatus === "Unavailable") {
+      child = <ChatBodyUnavailable/>;
     } else {
-      child = <ChatBodyFailed/>;
+      child = <ChatBodyError/>;
     }
     return {
       ...child
@@ -34,40 +37,7 @@ function ChatBodyConnected() {
     }
   }
 
-  return (<div id={styles["chat-body"]} ref={el => scrollToBottom(el)}>
-    <ChatMsg message="Hey, Where are  you from?" msgType="Received"/>
-    <ChatMsg message="Heloo, I am from India!" msgType="Sent"/>
-    <ChatMsg message="Cool, I am too from India" msgType="Received"/>
-    <ChatMetaMsg message="Sharing photo request sent"/>
-    <ChatMetaMsg message="Stranger sent photo sharing request"/>
-    <ChatMsg message="Thats amazing :)"/>
-    <ChatMetaMsg message="You approved the request"/>
-    <ChatMetaMsg message="Stranger approved your request"/>
-    <ChatMsg message="Hey, Where are  you from?" msgType="Received"/>
-    <ChatMsg message="Heloo, I am from India!" msgType="Sent"/>
-    <ChatMsg message="Cool, I am too from India" msgType="Received"/>
-    <ChatMetaMsg message="Sharing photo request sent"/>
-    <ChatMetaMsg message="Stranger sent photo sharing request"/>
-    <ChatMsg message="Thats amazing :)"/>
-    <ChatMetaMsg message="You approved the request"/>
-    <ChatMetaMsg message="Stranger approved your request"/>
-    <ChatMsg message="Hey, Where are  you from?" msgType="Received"/>
-    <ChatMsg message="Heloo, I am from India!" msgType="Sent"/>
-    <ChatMsg message="Cool, I am too from India" msgType="Received"/>
-    <ChatMetaMsg message="Sharing photo request sent"/>
-    <ChatMetaMsg message="Stranger sent photo sharing request"/>
-    <ChatMsg message="Thats amazing :)"/>
-    <ChatMetaMsg message="You approved the request"/>
-    <ChatMetaMsg message="Stranger approved your request"/>
-    <ChatMsg message="Hey, Where are  you from?" msgType="Received"/>
-    <ChatMsg message="Heloo, I am from India!" msgType="Sent"/>
-    <ChatMsg message="Cool, I am too from India" msgType="Received"/>
-    <ChatMetaMsg message="Sharing photo request sent"/>
-    <ChatMetaMsg message="Stranger sent photo sharing request"/>
-    <ChatMsg message="Thats amazing :)"/>
-    <ChatMetaMsg message="You approved the request"/>
-    <ChatMetaMsg message="Stranger approved your request"/>
-  </div>);
+  return (<div id={styles["chat-body"]} ref={el => scrollToBottom(el)}></div>);
 }
 
 function ChatBodySearching() {
@@ -78,12 +48,26 @@ function ChatBodySearching() {
   </div>);
 }
 
-function ChatBodyFailed() {
+function ChatBodyUnavailable() {
   return (<div id={styles["chat-body"]}>
     <p id={styles["failed-chat-body-text"]}>
       No one is available at this moment to connect.
     </p>
   </div>);
+}
+
+function ChatBodyError() {
+  const chatSocket = React.useContext(SocketContext);
+
+  return (<div id={styles["chat-body"]}>
+    <Link to="chat" className="d-block text-center">
+      <button id={styles['start-chat-btn']} onClick={connectStranger}>Connect again</button>
+    </Link>
+  </div>);
+
+  function connectStranger() {
+    chatSocket.connectStranger();
+  }
 }
 
 export default ChatBody;

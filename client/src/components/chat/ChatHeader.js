@@ -10,12 +10,14 @@ import searchIcon from "../../images/search-icon.svg";
 class ChatHeader extends React.Component {
   render() {
     let child;
-    if (this.props.headerType === "Connected") {
-      child = <ChatHeaderConnected />;
-    } else if (this.props.headerType === "Searching") {
-      child = <ChatHeaderSearching />;
+    if (this.props.chatStatus === "Connected") {
+      child = <ChatHeaderConnected/>;
+    } else if (this.props.chatStatus === "Searching") {
+      child = <ChatHeaderSearching/>;
+    } else if (this.props.chatStatus === "Unavailable") {
+      child = <ChatHeaderUnavailable/>;
     } else {
-      child = <ChatHeaderFailed />;
+      child = <ChatHeaderError/>;
     }
     return {
       ...child
@@ -24,71 +26,58 @@ class ChatHeader extends React.Component {
 }
 
 function ChatHeaderConnected() {
-  return (
-    <div
-      id={styles["chat-header"]}
-      className="d-flex justify-content-between align-items-center flex-wrap"
-    >
-      <div className="flex-fill">
-        <img
-          src={successIcon}
-          id={styles["chat-header-icon-success"]}
-          alt="Chat Header Icon"
-        />
-        <div className={styles["chat-header-main"]}>
-          <h3 className={styles["chat-header-title"]}>Connected!</h3>
-          <p className={styles["chat-header-sub-title"]}>
-            You can start sending messages to the stranger now.
-          </p>
-        </div>
+  return (<div id={styles["chat-header"]} className="d-flex justify-content-between align-items-center flex-wrap">
+    <div className="flex-fill">
+      <img src={successIcon} id={styles["chat-header-icon-success"]} alt="Chat Header Icon"/>
+      <div className={styles["chat-header-main"]}>
+        <h3 className={styles["chat-header-title"]}>Connected!</h3>
+        <p className={styles["chat-header-sub-title"]}>
+          You can start sending messages to the stranger now
+        </p>
       </div>
-      <CloseChatButton />
     </div>
-  );
+    <CloseChatButton/>
+  </div>);
 }
 
 function ChatHeaderSearching() {
-  return (
-    <div
-      id={styles["chat-header"]}
-      className="d-flex justify-content-between align-items-center flex-wrap"
-    >
-      <div>
-        <img
-          src={searchIcon}
-          id={styles["chat-header-icon-search"]}
-          alt="Chat Header Icon"
-        />
-        <div className={styles["chat-header-main"]}>
-          <h3 className={styles["chat-header-title"]}>Searching...</h3>
-        </div>
+  return (<div id={styles["chat-header"]} className="d-flex justify-content-between align-items-center flex-wrap">
+    <div>
+      <img src={searchIcon} id={styles["chat-header-icon-search"]} alt="Chat Header Icon"/>
+      <div className={styles["chat-header-main"]}>
+        <h3 className={styles["chat-header-title"]}>Searching...</h3>
       </div>
-      <CloseChatButton />
     </div>
-  );
+    <CloseChatButton/>
+  </div>);
 }
 
-function ChatHeaderFailed() {
-  return (
-    <div
-      id={styles["chat-header"]}
-      className="d-flex justify-content-between align-items-center"
-    >
-      <div className="flex-fill">
-        <img
-          src={errorIcon}
-          id={styles["chat-header-icon-error"]}
-          alt="Chat Header Icon"
-        />
-        <div className={styles["chat-header-main"]}>
-          <h3 className={styles["chat-header-title"]}>
-            No strangers available at this moment
-          </h3>
-        </div>
+function ChatHeaderUnavailable() {
+  return (<div id={styles["chat-header"]} className="d-flex justify-content-between align-items-center">
+    <div className="flex-fill">
+      <img src={errorIcon} id={styles["chat-header-icon-error"]} alt="Chat Header Icon"/>
+      <div className={styles["chat-header-main"]}>
+        <h3 className={styles["chat-header-title"]}>
+          No strangers available at this moment
+        </h3>
       </div>
-      <CloseChatButton />
     </div>
-  );
+    <CloseChatButton/>
+  </div>);
+}
+
+function ChatHeaderError() {
+  return (<div id={styles["chat-header"]} className="d-flex justify-content-between align-items-center">
+    <div className="flex-fill">
+      <img src={errorIcon} id={styles["chat-header-icon-error"]} alt="Chat Header Icon"/>
+      <div className={styles["chat-header-main"]}>
+        <h3 className={styles["chat-header-title"]}>
+          Chat Disconnected
+        </h3>
+      </div>
+    </div>
+    <CloseChatButton/>
+  </div>);
 }
 
 function CloseChatButton() {
@@ -98,19 +87,9 @@ function CloseChatButton() {
     chatSocket.disconnectChat();
   }
 
-  return (
-    <Link
-      to="/"
-      className="m-auto m-sm-0"
-      onClick={() => disconnectChat(chatSocket)}
-    >
-      <img
-        className={styles["close-chat-icon"]}
-        src={closeIcon}
-        alt="Close Chat Icon"
-      />
-    </Link>
-  );
+  return (<Link to="/" className="m-auto m-sm-0" onClick={() => disconnectChat(chatSocket)}>
+    <img className={styles["close-chat-icon"]} src={closeIcon} alt="Close Chat Icon"/>
+  </Link>);
 }
 
 export default ChatHeader;
