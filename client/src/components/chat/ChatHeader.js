@@ -27,7 +27,7 @@ class ChatHeader extends React.Component {
 
 function ChatHeaderConnected() {
   return (<div id={styles["chat-header"]} className="d-flex justify-content-between align-items-center flex-wrap">
-    <div className="flex-fill">
+    <div >
       <img src={successIcon} id={styles["chat-header-icon-success"]} alt="Chat Header Icon"/>
       <div className={styles["chat-header-main"]}>
         <h3 className={styles["chat-header-title"]}>Connected!</h3>
@@ -42,7 +42,7 @@ function ChatHeaderConnected() {
 
 function ChatHeaderSearching() {
   return (<div id={styles["chat-header"]} className="d-flex justify-content-between align-items-center flex-wrap">
-    <div>
+    <div className="flex-grow-1">
       <img src={searchIcon} id={styles["chat-header-icon-search"]} alt="Chat Header Icon"/>
       <div className={styles["chat-header-main"]}>
         <h3 className={styles["chat-header-title"]}>Searching...</h3>

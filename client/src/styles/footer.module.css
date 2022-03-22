@@ -1,0 +1,14 @@
+footer {
+  background: #ec4747;
+}
+
+footer p {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 23px;
+  color: #fff2f2;
+  margin: 0;
+  text-align: center;
+  padding: 10px 0;
+}

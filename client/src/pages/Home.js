@@ -24,19 +24,29 @@ class Home extends React.Component {
           <Link to="chat">
             <button id={styles['start-chat-btn']} onClick={this.connectStranger}>Connect with a Stranger now</button>
           </Link>
+          <div id={styles['compliance-text']} className="mt-3">
+            <p>By connecting to a stranger, you agree to our&nbsp;
+              <Link to="terms-and-conditions">
+                Terms & Conditions
+              </Link>
+              &nbsp;and&nbsp;
+              <Link to="">Privacy Policy</Link>
+            </p>
+          </div>
         </div>
         <div>
           <img id={styles["chat-illustration"]} src={chatIllustrationImage} alt="Chat Illustration"/>
         </div>
       </Container>
-      <Container>
+      {/*<Container>
         <div className="d-flex justify-content-center justify-content-md-end justify-content-xl-center align-items-center flex-wrap my-4">
           <span id={styles['developer-label']}>Designed & Developed By</span>
           <div className="d-inline-block" id={styles['developer-data']}><img src={developerImage} alt="Developer"/>
             <span id={styles['developer-name']}>Nitish Gattepalli</span>
           </div>
         </div>
-      </Container>
+      </Container>*/
+      }
     </div>);
   }
 

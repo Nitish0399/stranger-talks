@@ -2,10 +2,6 @@ import React from "react";
 import "../styles/notFound.module.css";
 
 class NotFound extends React.Component {
-  // constructor(props) {
-  //
-  // }
-
   render() {
 
     window.anime({

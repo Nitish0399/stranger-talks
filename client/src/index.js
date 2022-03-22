@@ -4,6 +4,7 @@ import "./index.css";
 import App from "./App";
 import Home from "./pages/Home";
 import Chat from "./pages/Chat";
+import TermsAndConditions from "./pages/TermsAndConditions";
 import NotFound from "./pages/NotFound";
 import reportWebVitals from "./reportWebVitals";
 import {BrowserRouter, Routes, Route} from "react-router-dom";
@@ -14,6 +15,7 @@ ReactDOM.render(<React.StrictMode>
       <Route path="/" element={<App />}>
         <Route index="index" element={<Home />}/>
         <Route path="chat" element={<Chat />}/>
+        <Route path="terms-and-conditions" element={<TermsAndConditions />}/>
       </Route>
       <Route path="*" element={<NotFound />}/>
     </Routes>
