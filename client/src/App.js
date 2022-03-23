@@ -22,13 +22,13 @@ function App() {
     hideHeader = true;
   }
 
-  return (<div id="container">
+  return (<div id="app">
     {
       (hideHeader)
         ? null
         : <Header/>
     }
-    <div id="content">
+    <div id="container">
       <SocketContext.Provider value={chatSocket}>
         <Outlet/>
       </SocketContext.Provider>

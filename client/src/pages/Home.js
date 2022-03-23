@@ -30,7 +30,7 @@ class Home extends React.Component {
                 Terms & Conditions
               </Link>
               &nbsp;and&nbsp;
-              <Link to="">Privacy Policy</Link>
+              <Link to="privacy-policy">Privacy Policy</Link>
             </p>
           </div>
         </div>
