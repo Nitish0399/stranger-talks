@@ -26,7 +26,7 @@ class Chat extends React.Component {
   render() {
     let chatStatus = this.state.chatStatus;
     return (<div>
-      <Container id={styles['chat-container']}>
+      <Container id={styles['chat-container']} className="d-flex flex-column justify-content-between">
         <ChatHeader chatStatus={chatStatus}/>
         <ChatBody chatStatus={chatStatus}/>
         <ChatFooter chatStatus={chatStatus}/>
