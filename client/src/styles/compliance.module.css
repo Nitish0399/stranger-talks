@@ -2,18 +2,18 @@
   padding: 20px 30px;
 }
 
-h3 {
+.content h3 {
   color: #111111;
   margin-bottom: 40px;
 }
 
-h5 {
+.content h5 {
   color: #111111;
   margin-top: 30px;
 }
 
-p,
-li {
+.content p,
+.content li {
   color: #4f4f4f;
   font-size: 14px;
 }
