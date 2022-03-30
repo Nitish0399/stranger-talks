@@ -17,16 +17,16 @@ module.exports = (io, socket, strangersState) => {
 
   function connect() {
     console.log("Stranger connecting..", socket.id);
-    console.log(strangersState.availableStrangers);
-    if (strangersState.availableStrangers.length != 0) {
+    console.log(strangersState.strangersAvailable);
+    if (strangersState.strangersAvailable.length != 0) {
 
       // Pick random stranger
       let randomStranger = getRandomStranger();
 
       // Map connected strangers
-      mapConnectedStrangers(socket.id, randomStranger);
+      mapstrangersConnected(socket.id, randomStranger);
 
-      // Remove picked random stranger from strangersState.availableStrangers array
+      // Remove picked random stranger from strangersState.strangersAvailable array
       removeStrangerFromAvailableList(randomStranger);
 
       io.to(socket.id).emit("chat:connected");
@@ -37,13 +37,13 @@ module.exports = (io, socket, strangersState) => {
       return;
     }
 
-    strangersState.availableStrangers.push(socket.id);
-    console.log(strangersState.availableStrangers);
+    strangersState.strangersAvailable.push(socket.id);
+    console.log(strangersState.strangersAvailable);
     const timeout = setTimeout(() => {
       // If stranger is not connected within set duration, emit unavailable
-      if (strangersState.connectedStrangers.hasOwnProperty(socket.id) == false) {
+      if (strangersState.strangersConnected.hasOwnProperty(socket.id) == false) {
         console.log("Stranger could not connect");
-        // Remove stranger from strangersState.availableStrangers array
+        // Remove stranger from strangersState.strangersAvailable array
         removeStrangerFromAvailableList(socket.id);
 
         io.to(socket.id).emit("chat:unavailable");
@@ -56,7 +56,7 @@ module.exports = (io, socket, strangersState) => {
     console.log("Strager message: " + message, socket.id);
 
     let senderSocketId = socket.id;
-    let receiverSocketId = strangersState.connectedStrangers[senderSocketId];
+    let receiverSocketId = strangersState.strangersConnected[senderSocketId];
     if (receiverSocketId == null) {
       io.to(senderSocketId).emit("chat:disconnect");
       return;
@@ -67,21 +67,24 @@ module.exports = (io, socket, strangersState) => {
   function disconnect() {
     console.log("Stranger disconnected", socket.id);
 
+    // Decrement the count of strangers online
+    strangersState.strangersOnlineCount--;
+
     // If stranger is connected to another stranger before disconnecting
-    if (strangersState.connectedStrangers.hasOwnProperty(socket.id)) {
-      var randomStranger = strangersState.connectedStrangers[socket.id];
+    if (strangersState.strangersConnected.hasOwnProperty(socket.id)) {
+      var randomStranger = strangersState.strangersConnected[socket.id];
 
       // Remove mapping of connected strangers
-      removeConnectedStrangers(socket.id, randomStranger);
+      removestrangersConnected(socket.id, randomStranger);
 
       io.to(socket.id).emit("chat:disconnect");
       io.to(randomStranger).emit("chat:disconnect");
     }
 
-    // Remove stranger from strangersState.availableStrangers array
+    // Remove stranger from strangersState.strangersAvailable array
     removeStrangerFromAvailableList(socket.id);
 
-    // Remove connected random stranger from strangersState.availableStrangers array
+    // Remove connected random stranger from strangersState.strangersAvailable array
     if (typeof(randomStranger) != "undefined") {
       removeStrangerFromAvailableList(randomStranger);
     }
@@ -92,24 +95,24 @@ module.exports = (io, socket, strangersState) => {
 
   // Picks random stranger from list of strangers available to connect
   function getRandomStranger() {
-    return strangersState.availableStrangers[Math.floor(Math.random() * strangersState.availableStrangers.length)];
+    return strangersState.strangersAvailable[Math.floor(Math.random() * strangersState.strangersAvailable.length)];
   }
 
   function removeStrangerFromAvailableList(strangerSocketId) {
-    const index = strangersState.availableStrangers.indexOf(strangerSocketId);
+    const index = strangersState.strangersAvailable.indexOf(strangerSocketId);
     if (index > -1) {
-      strangersState.availableStrangers.splice(index, 1); // 2nd parameter means remove one item only
+      strangersState.strangersAvailable.splice(index, 1); // 2nd parameter means remove one item only
     }
   }
 
-  function mapConnectedStrangers(stranger1, stranger2) {
-    strangersState.connectedStrangers[stranger1] = stranger2;
-    strangersState.connectedStrangers[stranger2] = stranger1;
+  function mapstrangersConnected(stranger1, stranger2) {
+    strangersState.strangersConnected[stranger1] = stranger2;
+    strangersState.strangersConnected[stranger2] = stranger1;
   }
 
-  function removeConnectedStrangers(stranger1, stranger2) {
-    delete strangersState.connectedStrangers[stranger1];
-    delete strangersState.connectedStrangers[stranger2];
+  function removestrangersConnected(stranger1, stranger2) {
+    delete strangersState.strangersConnected[stranger1];
+    delete strangersState.strangersConnected[stranger2];
   }
 
 };

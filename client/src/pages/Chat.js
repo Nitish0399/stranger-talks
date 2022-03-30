@@ -12,14 +12,21 @@ class Chat extends React.Component {
   constructor(props, context) {
     super(props, context);
     this.state = {
-      chatStatus: "Connected"
+      chatStatus: "Searching"
     };
-
   }
 
   componentDidMount() {
     this.context.socket.on("chat:connected", function(chatStatus) {
       this.setState({chatStatus: "Connected"});
+    }.bind(this));
+
+    this.context.socket.on("chat:unavailable", function(chatStatus) {
+      this.setState({chatStatus: "Unavailable"});
+    }.bind(this));
+
+    this.context.socket.on("chat:disconnect", function(chatStatus) {
+      this.setState({chatStatus: "Disconnected"});
     }.bind(this));
   }
 

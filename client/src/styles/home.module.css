@@ -47,20 +47,19 @@
 
 #strangers-online h5 {
   display: inline-block;
-  padding: 8px;
   margin-right: 10px;
-  border: 2px solid #ec4747;
-  box-sizing: border-box;
-  border-radius: 50%;
+  margin-bottom: 0;
   font-weight: 700;
   font-size: 22px;
-  line-height: 22px;
+  line-height: 26px;
   color: #ec4747;
+  text-decoration: underline;
 }
 
 #strangers-online h6 {
   display: inline-block;
   font-weight: 400;
+  margin-bottom: 0;
   font-size: 22px;
   line-height: 24px;
   color: #4f4f4f;
@@ -127,15 +126,5 @@
 
   #start-chat-btn {
     font-size: 14px;
-  }
-
-  #strangers-online h5 {
-    font-size: 18px;
-    line-height: 18px;
-  }
-
-  #strangers-online h6 {
-    font-size: 16px;
-    line-height: 16px;
   }
 }

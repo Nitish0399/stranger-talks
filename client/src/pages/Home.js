@@ -9,13 +9,22 @@ import developerImage from "../images/developer-image.jpg";
 class Home extends React.Component {
   static contextType = SocketContext;
 
-  constructor(props) {
+  constructor(props, context) {
     super(props);
+    this.state = {
+      strangersOnlineCount: 0
+    };
     this.connectStranger = this.connectStranger.bind(this);
   }
 
+  componentDidMount() {
+    this.context.socket.on("chat:strangers-online", function(strangersOnlineCount) {
+      this.setState({strangersOnlineCount});
+    }.bind(this));
+  }
+
   render() {
-    return (<div className="py-3">
+    return (<div className="pt-2 pb-5">
       <Container className="d-flex justify-content-center justify-content-md-between justify-content-xl-evenly align-items-center flex-wrap flex-md-nowrap">
         <div id={styles['app-details']} className="text-center text-md-start">
           <h1 id={styles["app-title"]}>Talk with Strangers Online</h1>
@@ -37,7 +46,7 @@ class Home extends React.Component {
         <div className="d-flex flex-column">
           <img id={styles["chat-illustration"]} className="order-2 order-md-1" src={chatIllustrationImage} alt="Chat Illustration"/>
           <div id={styles['strangers-online']} className="order-1 order-md-2">
-            <h5>21</h5>
+            <h5>{this.state.strangersOnlineCount}</h5>
             <h6>Strangers Online</h6>
           </div>
         </div>
