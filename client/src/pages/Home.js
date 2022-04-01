@@ -11,6 +11,9 @@ class Home extends React.Component {
 
   constructor(props, context) {
     super(props);
+
+    context.getStrangersOnlineCount();
+
     this.state = {
       strangersOnlineCount: 0
     };

@@ -28,14 +28,6 @@ var strangersState = {
 };
 
 io.on("connection", (socket) => {
-  console.log('Stranger connected to socket server', socket.id);
-
-  // Increment the count of strangers online
-  strangersState.strangersOnlineCount++;
-
-  // Emit to socket the count of sstrangers online
-  io.to(socket.id).emit("chat:strangers-online", strangersState.strangersOnlineCount);
-
   socketHandler(io, socket, strangersState);
 });
 

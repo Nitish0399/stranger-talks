@@ -30,7 +30,7 @@ function ChatHeaderConnected() {
     <div className="flex-fill">
       <img src={successIcon} id={styles["chat-header-icon-success"]} alt="Chat Header Icon"/>
       <div className={styles["chat-header-main"]}>
-        <h3 className={styles["chat-header-title"]}>Connected!</h3>
+        <h5 className={styles["chat-header-title"]}>Connected!</h5>
         <p className={styles["chat-header-sub-title"]}>
           You can start sending messages to the stranger now
         </p>
@@ -45,7 +45,7 @@ function ChatHeaderSearching() {
     <div className="flex-grow-1">
       <img src={searchIcon} id={styles["chat-header-icon-search"]} alt="Chat Header Icon"/>
       <div className={styles["chat-header-main"]}>
-        <h3 className={styles["chat-header-title"]}>Searching...</h3>
+        <h5 className={styles["chat-header-title"]}>Searching...</h5>
       </div>
     </div>
     <CloseChatButton/>
@@ -57,9 +57,9 @@ function ChatHeaderUnavailable() {
     <div className="flex-fill">
       <img src={errorIcon} id={styles["chat-header-icon-error"]} alt="Chat Header Icon"/>
       <div className={styles["chat-header-main"]}>
-        <h3 className={styles["chat-header-title"]}>
+        <h5 className={styles["chat-header-title"]}>
           No strangers available at this moment
-        </h3>
+        </h5>
       </div>
     </div>
     <CloseChatButton/>
@@ -71,9 +71,9 @@ function ChatHeaderError() {
     <div className="flex-fill">
       <img src={errorIcon} id={styles["chat-header-icon-error"]} alt="Chat Header Icon"/>
       <div className={styles["chat-header-main"]}>
-        <h3 className={styles["chat-header-title"]}>
+        <h5 className={styles["chat-header-title"]}>
           Chat Disconnected
-        </h3>
+        </h5>
       </div>
     </div>
     <CloseChatButton/>

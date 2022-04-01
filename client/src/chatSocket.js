@@ -13,6 +13,10 @@ class ChatSocket {
     this.socket.emit('chat:message', message);
   }
 
+  getStrangersOnlineCount() {
+    this.socket.emit('chat:strangers-online');
+  }
+
   disconnectChat() {
     console.log("disconnect");
     this.socket.emit('chat:disconnect');

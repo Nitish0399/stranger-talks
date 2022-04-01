@@ -11,7 +11,7 @@
 #chat-header {
   background: #ec4747;
   border-radius: 20px 20px 0px 0px;
-  padding: 25px 35px;
+  padding: 15px 30px;
   -webkit-box-shadow: 0 8px 6px -6px rgba(0, 0, 0, 0.25);
   -moz-box-shadow: 0 8px 6px -6px rgba(0, 0, 0, 0.25);
   box-shadow: 0 8px 6px -6px rgba(0, 0, 0, 0.25);
@@ -19,20 +19,20 @@
 
 #chat-header-icon-success {
   vertical-align: baseline;
-  height: 40px;
-  width: 40px;
+  height: 32px;
+  width: 26px;
 }
 
 #chat-header-icon-search {
   vertical-align: text-bottom;
-  height: 30px;
-  width: 30px;
+  height: 23px;
+  width: 23px;
 }
 
 #chat-header-icon-error {
   vertical-align: text-bottom;
-  height: 30px;
-  width: 30px;
+  height: 24px;
+  width: 24px;
 }
 
 .chat-header-main {
@@ -41,7 +41,7 @@
   width: calc(100% - 58px);
 }
 
-.chat-header-main h3 {
+.chat-header-main h5 {
   color: #ffffff;
   margin: 0;
   font-family: "Ubuntu", sans-serif;
@@ -50,12 +50,13 @@
 .chat-header-main p {
   color: #ffffff;
   margin: 0;
+  font-size: 14px;
   font-weight: 300;
 }
 
 .close-chat-icon {
-  width: 30px;
-  height: 30px;
+  width: 25px;
+  height: 25px;
 }
 
 /* Chat Body */
@@ -198,38 +199,44 @@
 
 @media only screen and (max-width: 768px) {
   #chat-header {
-    padding: 20px 25px;
+    padding: 15px 25px;
   }
 
   #chat-header-icon-success {
-    vertical-align: top;
-    height: 30px;
-    width: 30px;
+    vertical-align: super;
+    height: 23px;
+    width: 23px;
   }
 
   #chat-header-icon-search {
     vertical-align: top;
-    height: 27px;
-    width: 27px;
+    height: 22px;
+    width: 22px;
   }
 
   #chat-header-icon-error {
     vertical-align: top;
-    height: 30px;
-    width: 30px;
+    height: 22px;
+    width: 22px;
   }
 
-  .chat-header-main h3 {
-    font-size: 23px;
-    line-height: 30px;
+  .chat-header-main h5 {
+    margin-bottom: 2px;
+    line-height: 23px;
   }
 
   .chat-header-main p {
-    font-size: 13px;
+    font-size: 12px;
   }
 
   .chat-msg {
     max-width: 250px;
+  }
+
+  #chat-input input {
+    width: calc(100% - 35px);
+    font-size: 14px;
+    line-height: 25px;
   }
 }
 
@@ -245,33 +252,21 @@
   }
 
   #chat-header-icon-success {
-    height: 27px;
-    width: 27px;
+    height: 40px;
   }
 
   #chat-header-icon-search {
-    height: 24px;
-    width: 24px;
+    height: 20px;
+    width: 20px;
   }
 
   #chat-header-icon-error {
-    height: 27px;
-    width: 27px;
+    height: 20px;
+    width: 20px;
   }
 
   .chat-header-main {
     margin-left: 10px;
-  }
-
-  .chat-header-main h3 {
-    font-size: 20px;
-    margin-bottom: 2px;
-    line-height: 25px;
-  }
-
-  .close-chat-icon {
-    width: 27px;
-    height: 27px;
   }
 
   .chat-msg {
@@ -293,8 +288,6 @@
 
   #chat-input input {
     width: calc(100% - 31px);
-    font-size: 14px;
-    line-height: 25px;
   }
 
   #send-btn img {

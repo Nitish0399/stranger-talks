@@ -6,7 +6,7 @@ import {Navbar, Container} from 'react-bootstrap';
 
 class Header extends React.Component {
   render() {
-    return (<Navbar sticky="fixed" className="py-3 py-md-4">
+    return (<Navbar sticky="fixed" className="py-3">
       <Container>
         <Navbar.Brand className="mx-auto">
           <Link to="/">
