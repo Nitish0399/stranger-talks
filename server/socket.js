@@ -3,6 +3,7 @@ module.exports = (io, socket, strangersState) => {
   console.log('Stranger connected to socket server', socket.id);
 
   increaseStrangerOnlineCount();
+
   emitStrangersOnlineCount();
 
   /* --------------------- LISTENERS --------------------- */
@@ -25,7 +26,7 @@ module.exports = (io, socket, strangersState) => {
   /* --------------------- HANDLERS --------------------- */
 
   function connect() {
-    console.log("Stranger connecting to chat..", socket.id);
+    console.log("Stranger connecting to chat...");
 
     if (strangersState.strangersAvailable.length != 0) {
 
@@ -41,7 +42,7 @@ module.exports = (io, socket, strangersState) => {
       io.to(socket.id).emit("chat:connected");
       io.to(randomStranger).emit("chat:connected");
 
-      console.log("Stranger connected", socket.id, randomStranger);
+      console.log("Stranger connected", randomStranger);
       return;
     }
 
@@ -61,7 +62,7 @@ module.exports = (io, socket, strangersState) => {
   }
 
   function message(message) {
-    console.log("Strager chat message: " + message, socket.id);
+    console.log("Strager chat message: " + message);
 
     let senderSocketId = socket.id;
     let receiverSocketId = strangersState.strangersConnected[senderSocketId];
@@ -73,14 +74,14 @@ module.exports = (io, socket, strangersState) => {
   }
 
   function emitStrangersOnlineCount() {
-    console.log("Strangers online: " + strangersState.strangersOnlineCount, socket.id);
+    console.log("Strangers online: " + strangersState.strangersOnlineCount);
 
     // Emit to socket the count of strangers online
     io.to(socket.id).emit("chat:strangers-online", strangersState.strangersOnlineCount);
   }
 
   function disconnect() {
-    console.log("Stranger disconnected the chat", socket.id);
+    console.log("Stranger disconnected the chat");
 
     // If stranger is connected to another stranger before disconnecting
     if (strangersState.strangersConnected.hasOwnProperty(socket.id)) {

@@ -7,27 +7,50 @@ import ChatFooter from "../components/chat/ChatFooter";
 import styles from "../styles/chat.module.css";
 
 class Chat extends React.Component {
+  _isMounted = false;
+
   static contextType = SocketContext;
 
   constructor(props, context) {
     super(props, context);
     this.state = {
-      chatStatus: "Connected"
+      chatStatus: "Searching"
     };
+
+    context.connectStranger();
   }
 
   componentDidMount() {
+    this._isMounted = true;
+
     this.context.socket.on("chat:connected", function(chatStatus) {
-      this.setState({chatStatus: "Connected"});
+      console.log("Stranger Connected");
+      // For eliminating memory leak when component is unmounted
+      if (this._isMounted) {
+        this.setState({chatStatus: "Connected"});
+      }
     }.bind(this));
 
     this.context.socket.on("chat:unavailable", function(chatStatus) {
-      this.setState({chatStatus: "Unavailable"});
+      console.log("Stranger Unavailable");
+      // For eliminating memory leak when component is unmounted
+      if (this._isMounted) {
+        this.setState({chatStatus: "Unavailable"});
+      }
     }.bind(this));
 
     this.context.socket.on("chat:disconnect", function(chatStatus) {
-      this.setState({chatStatus: "Disconnected"});
+      console.log("Stranger Disconnected");
+      // For eliminating memory leak when component is unmounted
+      if (this._isMounted) {
+        this.setState({chatStatus: "Disconnected"});
+      }
     }.bind(this));
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false;
+    this.context.disconnectChat();
   }
 
   render() {

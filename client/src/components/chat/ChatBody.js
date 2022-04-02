@@ -1,9 +1,9 @@
-import React from "react";
+import React, {useState} from "react";
 import {SocketContext} from "../../context.js";
 import styles from "../../styles/chat.module.css";
 import {Link} from "react-router-dom";
 import ChatMsg from "./ChatMsg";
-import ChatMetaMsg from "./ChatMetaMsg";
+// import ChatMetaMsg from "./ChatMetaMsg";
 import {Rings} from "react-loader-spinner";
 
 class ChatBody extends React.Component {
@@ -27,8 +27,14 @@ class ChatBody extends React.Component {
 function ChatBodyConnected() {
   const chatSocket = React.useContext(SocketContext);
 
+  const [messagesList, setMessagesList] = useState([]);
+
   chatSocket.socket.on("chat:message", function(message) {
     console.log(message);
+
+    messagesList.push(<ChatMsg key={messagesList.length + 1} message={message} msgType="Received"/>);
+    console.log(messagesList);
+    setMessagesList([...messagesList]);
   });
 
   function scrollToBottom(element) {
@@ -36,8 +42,7 @@ function ChatBodyConnected() {
       element.scrollTop = element.scrollHeight;
     }
   }
-
-  return (<div id={styles["chat-body"]} ref={el => scrollToBottom(el)}></div>);
+  return (<div id={styles["chat-body"]} ref={el => scrollToBottom(el)}>{messagesList}</div>);
 }
 
 function ChatBodySearching() {

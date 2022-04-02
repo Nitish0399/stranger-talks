@@ -7,6 +7,8 @@ import chatIllustrationImage from "../images/chat-illustration.svg";
 import developerImage from "../images/developer-image.jpg";
 
 class Home extends React.Component {
+  _isMounted = false;
+
   static contextType = SocketContext;
 
   constructor(props, context) {
@@ -17,13 +19,22 @@ class Home extends React.Component {
     this.state = {
       strangersOnlineCount: 0
     };
-    this.connectStranger = this.connectStranger.bind(this);
   }
 
   componentDidMount() {
+    this._isMounted = true;
+
     this.context.socket.on("chat:strangers-online", function(strangersOnlineCount) {
-      this.setState({strangersOnlineCount});
+      // For eliminating memory leak when component is unmounted
+      if (this._isMounted) {
+        this.setState({strangersOnlineCount});
+      }
     }.bind(this));
+
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false;
   }
 
   render() {
@@ -34,7 +45,7 @@ class Home extends React.Component {
           <p id={styles["app-description"]}>Connect with people around the world. Have engaging communication by sharing photos and videos.
           </p>
           <Link to="chat">
-            <button id={styles['start-chat-btn']} onClick={this.connectStranger}>Connect with a Stranger now</button>
+            <button id={styles['start-chat-btn']}>Connect with a Stranger now</button>
           </Link>
           <div id={styles['compliance-text']} className="mt-3">
             <p>By connecting to a stranger, you agree to our&nbsp;
@@ -66,9 +77,6 @@ class Home extends React.Component {
     </div>);
   }
 
-  connectStranger() {
-    this.context.connectStranger();
-  }
 }
 
 export default Home;
