@@ -18,8 +18,6 @@ function Home() {
   useEffect(() => {
     chatSocket.attach(onStrangerOnlineCountChange);
 
-    chatSocket.getStrangersOnlineCount();
-
     // Detach observer when component unmounted
     return() => chatSocket.detach(onStrangerOnlineCountChange);
   })

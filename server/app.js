@@ -24,7 +24,8 @@ var strangersState = {
   strangersOnlineCount: 0,
   strangersAvailable: [],
   strangersConnected: {},
-  searchStrangersDuration: 1000 // in milliseconds
+  strangersTimeouts: {},
+  searchStrangersDuration: 15000 // in milliseconds
 };
 
 io.on("connection", (socket) => {

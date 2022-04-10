@@ -76,7 +76,7 @@ function ChatBodyUnavailable() {
     <p id={styles["failed-chat-body-text"]}>
       No one is available at this moment to connect.
     </p>
-    <Link to="chat" className="d-block text-center">
+    <Link to="/chat" className="d-block text-center">
       <button id={styles['start-chat-btn']} onClick={connectStranger}>Retry again</button>
     </Link>
   </div>);
@@ -90,7 +90,7 @@ function ChatBodyDisconnected() {
   const chatSocket = useContext(SocketContext);
 
   return (<div id={styles["chat-body"]}>
-    <Link to="chat" className="d-block text-center">
+    <Link to="/chat" className="d-block text-center">
       <button id={styles['start-chat-btn']} onClick={connectStranger}>Connect again</button>
     </Link>
   </div>);

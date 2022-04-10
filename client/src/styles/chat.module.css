@@ -160,7 +160,7 @@
 /* Chat Message */
 
 .chat-msg {
-  padding: 10px 15px;
+  padding: 7px 15px;
   font-size: 14px;
   max-width: 300px;
   display: inline-block;
@@ -170,7 +170,7 @@
   background: #ec4747;
   color: #ffffff;
   border-radius: 20px 5px 20px 20px;
-  margin: 10px 20px 10px auto;
+  margin: 5px 20px 5px auto;
 }
 
 .receiver-msg {

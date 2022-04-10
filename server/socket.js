@@ -12,8 +12,6 @@ module.exports = (io, socket, strangersState) => {
 
   socket.on("chat:message", message);
 
-  socket.on("chat:strangers-online", emitStrangersOnlineCount);
-
   socket.on("chat:disconnect", () => {
     disconnect();
   });
@@ -27,6 +25,10 @@ module.exports = (io, socket, strangersState) => {
 
   function connect() {
     console.log("Stranger connecting to chat...");
+
+    io.to(socket.id).emit("chat:searching"); // emit to socket
+
+    disconnect(); //disconnect earlier chat is exists
 
     if (strangersState.strangersAvailable.length != 0) {
 
@@ -42,6 +44,10 @@ module.exports = (io, socket, strangersState) => {
       io.to(socket.id).emit("chat:connected");
       io.to(randomStranger).emit("chat:connected");
 
+      // Clear timeout created for random stranger
+      let randomStrangerTimeout = strangersState.strangersTimeouts[randomStranger];
+      clearTimeout(randomStrangerTimeout);
+
       console.log("Stranger connected", randomStranger);
       return;
     }
@@ -49,8 +55,9 @@ module.exports = (io, socket, strangersState) => {
     strangersState.strangersAvailable.push(socket.id);
 
     const timeout = setTimeout(() => {
-      // If stranger is not connected within set duration, emit unavailable
-      if (strangersState.strangersConnected.hasOwnProperty(socket.id) == false) {
+      // If stranger is not connected within set duration,
+      // emit unavailable
+      if (isStrangerChatActive() == false) {
         console.log("Stranger could not connect to chat");
         // Remove stranger from strangersState.strangersAvailable array
         removeStrangerFromAvailableList(socket.id);
@@ -59,6 +66,8 @@ module.exports = (io, socket, strangersState) => {
       }
     }, strangersState.searchStrangersDuration);
 
+    // Save the timeout created for current socket, to clear it later if needed
+    strangersState.strangersTimeouts[socket.id] = timeout;
   }
 
   function message(message) {
@@ -77,27 +86,29 @@ module.exports = (io, socket, strangersState) => {
     console.log("Strangers online: " + strangersState.strangersOnlineCount);
 
     // Emit to socket the count of strangers online
-    io.to(socket.id).emit("chat:strangers-online", strangersState.strangersOnlineCount);
+    io.emit("chat:strangers-online", strangersState.strangersOnlineCount);
   }
 
   function disconnect() {
     console.log("Stranger disconnected the chat");
 
+    emitStrangersOnlineCount();
+
     // If stranger is connected to another stranger before disconnecting
-    if (strangersState.strangersConnected.hasOwnProperty(socket.id)) {
+    if (isStrangerChatActive()) {
       var randomStranger = strangersState.strangersConnected[socket.id];
 
       // Remove mapping of connected strangers
-      demapConnectedStrangers(socket.id, randomStranger);
+      deMapConnectedStrangers(socket.id, randomStranger);
 
-      io.to(socket.id).emit("chat:disconnect");
-      io.to(randomStranger).emit("chat:disconnect");
+      io.to(socket.id).emit("chat:disconnected");
+      io.to(randomStranger).emit("chat:disconnected");
     }
 
     // Remove stranger from strangersState.strangersAvailable array
     removeStrangerFromAvailableList(socket.id);
 
-    // Remove connected random stranger from strangersState.strangersAvailable array
+    // Remove connected random stranger from strangersState.strangersAvailable array if undefined
     if (typeof(randomStranger) != "undefined") {
       removeStrangerFromAvailableList(randomStranger);
     }
@@ -118,12 +129,16 @@ module.exports = (io, socket, strangersState) => {
     }
   }
 
+  function isStrangerChatActive() {
+    return strangersState.strangersConnected.hasOwnProperty(socket.id);
+  }
+
   function mapConnectedStrangers(stranger1, stranger2) {
     strangersState.strangersConnected[stranger1] = stranger2;
     strangersState.strangersConnected[stranger2] = stranger1;
   }
 
-  function demapConnectedStrangers(stranger1, stranger2) {
+  function deMapConnectedStrangers(stranger1, stranger2) {
     delete strangersState.strangersConnected[stranger1];
     delete strangersState.strangersConnected[stranger2];
   }

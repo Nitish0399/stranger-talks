@@ -8,6 +8,7 @@ import successIcon from "../../images/success-icon.svg";
 import searchIcon from "../../images/search-icon.svg";
 
 function ChatHeader() {
+
   const chatSocket = useContext(SocketContext);
   const [chatStatus, setChatStatus] = useState(chatSocket.chatStatus);
 
@@ -29,7 +30,7 @@ function ChatHeader() {
   } else if (chatStatus === "Unavailable") {
     return <ChatHeaderUnavailable/>;
   } else {
-    return <ChatHeaderError/>;
+    return <ChatHeaderDisconnected/>;
   }
 
 }
@@ -75,7 +76,7 @@ function ChatHeaderUnavailable() {
   </div>);
 }
 
-function ChatHeaderError() {
+function ChatHeaderDisconnected() {
   return (<div id={styles["chat-header"]} className="d-flex justify-content-between align-items-center">
     <div className="flex-fill">
       <img src={errorIcon} id={styles["chat-header-icon-error"]} alt="Chat Header Icon"/>
@@ -90,16 +91,6 @@ function ChatHeaderError() {
 }
 
 function CloseChatButton() {
-  // const chatSocket = React.useContext(SocketContext);
-  //
-  // function disconnectChat() {
-  //   chatSocket.disconnectChat();
-  // }
-  //
-  // return (<Link to="/" className="m-auto m-sm-0" onClick={() => disconnectChat(chatSocket)}>
-  //   <img className={styles["close-chat-icon"]} src={closeIcon} alt="Close Chat Icon"/>
-  // </Link>);
-
   return (<Link to="/" className="m-auto m-sm-0">
     <img className={styles["close-chat-icon"]} src={closeIcon} alt="Close Chat Icon"/>
   </Link>);

@@ -15,11 +15,8 @@ class ChatSocket {
     this.observers.push(observer);
   }
 
-  detach(observer) {
-    const index = this.observers.indexOf(observer);
-    if (index > -1) {
-      this.observers.splice(index, 1);
-    }
+  detach(observerToRemove) {
+    this.observers = this.observers.filter(observer => observerToRemove !== observer);
   }
 
   notify() {
@@ -35,33 +32,39 @@ class ChatSocket {
       this.notify();
     }.bind(this));
 
-    this.socket.on("chat:connected", function(chatStatus) {
+    this.socket.on("chat:searching", function() {
+      console.log("Searching for Stranger");
+      this.chatStatus = "Searching";
+      this.notify();
+    }.bind(this));
+
+    this.socket.on("chat:connected", function() {
       console.log("Stranger Connected");
       this.chatStatus = "Connected";
       this.notify();
     }.bind(this));
 
-    this.socket.on("chat:unavailable", function(chatStatus) {
+    this.socket.on("chat:unavailable", function() {
       console.log("Stranger Unavailable");
       this.chatStatus = "Unavailable";
       this.notify();
     }.bind(this));
 
-    this.socket.on("chat:disconnect", function(chatStatus) {
+    this.socket.on("chat:disconnected", function() {
       console.log("Stranger Disconnected");
       this.chatStatus = "Disconnected";
       this.notify();
     }.bind(this));
 
     this.socket.on("chat:message", function(message) {
-      console.log("Chat Message Received: ", message);
+      console.log("Stranger Message Received: ", message);
       this.messagesList.push({message, "party": "Receiver"});
       this.notify();
     }.bind(this));
   }
 
   connectStranger() {
-    console.log("chat connected");
+    console.log("Chat Connecting");
     this.socket.emit('chat:connect');
   }
 
@@ -71,12 +74,8 @@ class ChatSocket {
     this.notify();
   }
 
-  getStrangersOnlineCount() {
-    this.socket.emit('chat:strangers-online');
-  }
-
   disconnectChat() {
-    console.log("chat disconnected");
+    console.log("Chat Disconnected");
     this.socket.emit('chat:disconnect');
   }
 }
