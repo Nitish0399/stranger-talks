@@ -11,23 +11,37 @@ import videoIcon from "../../images/video-icon.svg";
 class ChatFooter extends React.Component {
   static contextType = SocketContext;
 
-  constructor(props) {
+  constructor(props, context) {
     super(props);
     this.state = {
+      chatStatus: context.chatStatus,
       messageInput: "",
       // requestModal: false,
       // resourceRequestType: "photo"
     };
 
+    this.onChatStatusChange = this.onChatStatusChange.bind(this);
     this.handleMessageInputChange = this.handleMessageInputChange.bind(this);
     this.sendMessage = this.sendMessage.bind(this);
     // this.shareResource = this.shareResource.bind(this);
     // this.closeModal = this.closeModal.bind(this);
   }
 
+  componentDidMount() {
+    this.context.attach(this.onChatStatusChange);
+  }
+
+  onChatStatusChange() {
+    this.setState({chatStatus: this.context.chatStatus});
+  }
+
+  componentWillUnmount() {
+    this.context.detach(this.onChatStatusChange);
+  }
+
   render() {
     let footerState = "d-block"; // footer visible
-    if (this.props.chatStatus !== "Connected") {
+    if (this.state.chatStatus !== "Connected") {
       footerState = "d-none"; // footer hidden
     }
 
@@ -59,7 +73,8 @@ class ChatFooter extends React.Component {
   }
 
   sendMessage() {
-    this.context.messageStranger(this.state.messageInput);
+    this.context.messagesList.push({"message": this.state.messageInput, "party": "Sender"});
+    this.context.sendMessage(this.state.messageInput);
     this.setState({messageInput: ""});
   }
 

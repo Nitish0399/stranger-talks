@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import {useContext, useState, useEffect} from 'react';
 import {SocketContext} from "../../context.js";
 import styles from "../../styles/chat.module.css";
 import {Link} from "react-router-dom";
@@ -6,43 +6,59 @@ import ChatMsg from "./ChatMsg";
 // import ChatMetaMsg from "./ChatMetaMsg";
 import {Rings} from "react-loader-spinner";
 
-class ChatBody extends React.Component {
-  render() {
-    let child;
-    if (this.props.chatStatus === "Connected") {
-      child = <ChatBodyConnected/>;
-    } else if (this.props.chatStatus === "Searching") {
-      child = <ChatBodySearching/>;
-    } else if (this.props.chatStatus === "Unavailable") {
-      child = <ChatBodyUnavailable/>;
-    } else {
-      child = <ChatBodyError/>;
-    }
-    return {
-      ...child
-    };
+function ChatBody() {
+
+  const chatSocket = useContext(SocketContext);
+  const [chatStatus, setChatStatus] = useState(chatSocket.chatStatus);
+
+  const onChatStatusChange = () => {
+    setChatStatus(chatSocket.chatStatus);
   }
+
+  useEffect(() => {
+    chatSocket.attach(onChatStatusChange);
+
+    // Detach observer when component unmounted
+    return() => chatSocket.detach(onChatStatusChange);
+  })
+
+  if (chatStatus === "Connected") {
+    return <ChatBodyConnected/>;
+  } else if (chatStatus === "Searching") {
+    return <ChatBodySearching/>;
+  } else if (chatStatus === "Unavailable") {
+    return <ChatBodyUnavailable/>;
+  } else {
+    return <ChatBodyError/>;
+  }
+
 }
 
 function ChatBodyConnected() {
-  const chatSocket = React.useContext(SocketContext);
+  const chatSocket = useContext(SocketContext);
+  const [chatMessages, setChatMessages] = useState([]);
 
-  const [messagesList, setMessagesList] = useState([]);
+  const onChatMessagesChange = () => {
+    let messages = chatSocket.messagesList.map((chatMessage, index) => {
+      return (<ChatMsg key={index} message={chatMessage.message} msgType={chatMessage.party}/>);
+    });
+    setChatMessages(messages);
+  }
 
-  chatSocket.socket.on("chat:message", function(message) {
-    console.log(message);
+  useEffect(() => {
+    chatSocket.attach(onChatMessagesChange);
 
-    messagesList.push(<ChatMsg key={messagesList.length + 1} message={message} msgType="Received"/>);
-    console.log(messagesList);
-    setMessagesList([...messagesList]);
-  });
+    // Detach observer when component unmounted
+    return() => chatSocket.detach(onChatMessagesChange);
+  })
 
   function scrollToBottom(element) {
     if (element != null) {
       element.scrollTop = element.scrollHeight;
     }
   }
-  return (<div id={styles["chat-body"]} ref={el => scrollToBottom(el)}>{messagesList}</div>);
+
+  return (<div id={styles["chat-body"]} ref={el => scrollToBottom(el)}>{chatMessages}</div>);
 }
 
 function ChatBodySearching() {
@@ -62,7 +78,7 @@ function ChatBodyUnavailable() {
 }
 
 function ChatBodyError() {
-  const chatSocket = React.useContext(SocketContext);
+  const chatSocket = useContext(SocketContext);
 
   return (<div id={styles["chat-body"]}>
     <Link to="chat" className="d-block text-center">

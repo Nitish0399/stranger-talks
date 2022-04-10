@@ -4,10 +4,10 @@ import styles from "../../styles/chat.module.css";
 class ChatMsg extends React.Component {
 
   render() {
-    let msgStyleClassName = "sent-msg";
+    let msgStyleClassName = "sender-msg";
 
-    if (this.props.msgType === "Received") {
-      msgStyleClassName = "received-msg";
+    if (this.props.msgType === "Receiver") {
+      msgStyleClassName = "receiver-msg";
     }
 
     return (<div className="d-flex">

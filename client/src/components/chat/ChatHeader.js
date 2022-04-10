@@ -1,4 +1,4 @@
-import React from "react";
+import {useContext, useState, useEffect} from 'react';
 import {Link} from "react-router-dom";
 import {SocketContext} from "../../context.js";
 import styles from "../../styles/chat.module.css";
@@ -7,22 +7,31 @@ import errorIcon from "../../images/error-icon.svg";
 import successIcon from "../../images/success-icon.svg";
 import searchIcon from "../../images/search-icon.svg";
 
-class ChatHeader extends React.Component {
-  render() {
-    let child;
-    if (this.props.chatStatus === "Connected") {
-      child = <ChatHeaderConnected/>;
-    } else if (this.props.chatStatus === "Searching") {
-      child = <ChatHeaderSearching/>;
-    } else if (this.props.chatStatus === "Unavailable") {
-      child = <ChatHeaderUnavailable/>;
-    } else {
-      child = <ChatHeaderError/>;
-    }
-    return {
-      ...child
-    };
+function ChatHeader() {
+  const chatSocket = useContext(SocketContext);
+  const [chatStatus, setChatStatus] = useState(chatSocket.chatStatus);
+
+  const onChatStatusChange = () => {
+    setChatStatus(chatSocket.chatStatus);
   }
+
+  useEffect(() => {
+    chatSocket.attach(onChatStatusChange);
+
+    // Detach observer when component unmounted
+    return() => chatSocket.detach(onChatStatusChange);
+  })
+
+  if (chatStatus === "Connected") {
+    return <ChatHeaderConnected/>;
+  } else if (chatStatus === "Searching") {
+    return <ChatHeaderSearching/>;
+  } else if (chatStatus === "Unavailable") {
+    return <ChatHeaderUnavailable/>;
+  } else {
+    return <ChatHeaderError/>;
+  }
+
 }
 
 function ChatHeaderConnected() {

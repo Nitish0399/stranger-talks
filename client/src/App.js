@@ -1,3 +1,4 @@
+import React, {useState, useEffect} from "react";
 import {Outlet, useLocation} from "react-router-dom";
 import {useMediaQuery} from 'react-responsive';
 import Header from "./components/Header";
@@ -10,11 +11,12 @@ const {io} = require("socket.io-client");
 
 // Initializing socket.io
 const socket = io("http://localhost:3001");
-const chatSocket = new ChatSocket(io, socket);
 
 function App() {
   const location = useLocation(); // get current component router path object
   const isMobile = useMediaQuery({query: `(max-width: 425px)`});
+
+  // const [chatSocket, setChatSocket] = useState(new ChatSocket(io, socket));
 
   let hideHeader = false;
   // Hide header when screen is mobile and current path is "/chat"
@@ -29,7 +31,7 @@ function App() {
         : <Header/>
     }
     <div id="container">
-      <SocketContext.Provider value={chatSocket}>
+      <SocketContext.Provider value={new ChatSocket(io, socket)}>
         <Outlet/>
       </SocketContext.Provider>
     </div>
