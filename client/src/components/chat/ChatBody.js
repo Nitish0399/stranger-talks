@@ -77,13 +77,10 @@ function ChatBodyUnavailable() {
       No one is available at this moment to connect.
     </p>
     <Link to="/chat" className="d-block text-center">
-      <button id={styles['start-chat-btn']} onClick={connectStranger}>Retry again</button>
+      <button id={styles['start-chat-btn']}>Retry again</button>
     </Link>
   </div>);
 
-  function connectStranger() {
-    chatSocket.connectStranger();
-  }
 }
 
 function ChatBodyDisconnected() {
@@ -91,13 +88,10 @@ function ChatBodyDisconnected() {
 
   return (<div id={styles["chat-body"]}>
     <Link to="/chat" className="d-block text-center">
-      <button id={styles['start-chat-btn']} onClick={connectStranger}>Connect again</button>
+      <button id={styles['start-chat-btn']}>Connect again</button>
     </Link>
   </div>);
 
-  function connectStranger() {
-    chatSocket.connectStranger();
-  }
 }
 
 export default ChatBody;

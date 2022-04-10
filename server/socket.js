@@ -28,7 +28,8 @@ module.exports = (io, socket, strangersState) => {
 
     io.to(socket.id).emit("chat:searching"); // emit to socket
 
-    disconnect(); //disconnect earlier chat is exists
+    disconnect();
+    // disconnect earlier chat is exists
 
     if (strangersState.strangersAvailable.length != 0) {
 
@@ -68,6 +69,8 @@ module.exports = (io, socket, strangersState) => {
 
     // Save the timeout created for current socket, to clear it later if needed
     strangersState.strangersTimeouts[socket.id] = timeout;
+
+    console.log(strangersState.strangersAvailable);
   }
 
   function message(message) {
@@ -90,7 +93,7 @@ module.exports = (io, socket, strangersState) => {
   }
 
   function disconnect() {
-    console.log("Stranger disconnected the chat");
+    console.log("Stranger disconnected the chat", socket.id);
 
     emitStrangersOnlineCount();
 
