@@ -8,30 +8,22 @@ import styles from "../styles/chat.module.css";
 
 function Chat() {
   const chatSocket = useContext(SocketContext);
-  const [chatStatus, setChatStatus] = useState(chatSocket.chatStatus);
-
-  const onChatStatusChange = () => {
-    setChatStatus(chatSocket.chatStatus);
-  }
 
   useEffect(() => {
-    chatSocket.attach(onChatStatusChange);
-
     // Emit event to connect to stranger
     chatSocket.connectStranger();
 
     // Detach observer when component unmounted
     return() => {
-      chatSocket.detach(onChatStatusChange);
       chatSocket.disconnectChat();
     };
   })
 
   return (<div>
     <Container id={styles['chat-container']} className="d-flex flex-column justify-content-between">
-      <ChatHeader chatStatus={chatStatus}/>
-      <ChatBody chatStatus={chatStatus}/>
-      <ChatFooter chatStatus={chatStatus}/>
+      <ChatHeader/>
+      <ChatBody/>
+      <ChatFooter/>
     </Container>
   </div>);
 }

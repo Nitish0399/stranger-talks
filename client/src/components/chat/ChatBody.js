@@ -58,7 +58,7 @@ function ChatBodyConnected() {
     }
   }
 
-  return (<div id={styles["chat-body"]} ref={el => scrollToBottom(el)}>{chatMessages}</div>);
+  return (<div id={styles["chat-body"]} className="mb-auto" ref={el => scrollToBottom(el)}>{chatMessages}</div>);
 }
 
 function ChatBodySearching() {
