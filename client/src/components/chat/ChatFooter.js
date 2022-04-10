@@ -1,4 +1,4 @@
-import React from "react";
+import {useContext, useState, useEffect} from 'react';
 import {SocketContext} from "../../context.js";
 import styles from "../../styles/chat.module.css";
 import ShareResourceRequestModal from "../modals/ShareResourceRequestModal";
@@ -8,82 +8,68 @@ import sendIcon from "../../images/send-icon.svg";
 import photoIcon from "../../images/photo-icon.svg";
 import videoIcon from "../../images/video-icon.svg";
 
-class ChatFooter extends React.Component {
-  static contextType = SocketContext;
+function ChatFooter() {
+  const chatSocket = useContext(SocketContext);
+  const [chatStatus, setChatStatus] = useState(chatSocket.chatStatus);
+  const [messageInput, setMessageInput] = useState("");
+  const [requestModal, setRequestModal] = useState(false);
+  const [resourceRequestType, setResourceRequestType] = useState("photo");
 
-  constructor(props, context) {
-    super(props);
-    this.state = {
-      chatStatus: context.chatStatus,
-      messageInput: "",
-      // requestModal: false,
-      // resourceRequestType: "photo"
-    };
-
-    this.onChatStatusChange = this.onChatStatusChange.bind(this);
-    this.handleMessageInputChange = this.handleMessageInputChange.bind(this);
-    this.sendMessage = this.sendMessage.bind(this);
-    // this.shareResource = this.shareResource.bind(this);
-    // this.closeModal = this.closeModal.bind(this);
+  const onChatStatusChange = () => {
+    setChatStatus(chatSocket.chatStatus);
   }
 
-  componentDidMount() {
-    this.context.attach(this.onChatStatusChange);
+  useEffect(() => {
+    chatSocket.attach(onChatStatusChange);
+
+    // Detach observer when component unmounted
+    return() => chatSocket.detach(onChatStatusChange);
+  })
+
+  let footerState = "d-block"; // footer visible
+  if (chatStatus !== "Connected") {
+    footerState = "d-none"; // footer hidden
   }
 
-  onChatStatusChange() {
-    this.setState({chatStatus: this.context.chatStatus});
-  }
-
-  componentWillUnmount() {
-    this.context.detach(this.onChatStatusChange);
-  }
-
-  render() {
-    let footerState = "d-block"; // footer visible
-    if (this.state.chatStatus !== "Connected") {
-      footerState = "d-none"; // footer hidden
-    }
-
-    return (<div>
-      <div id={styles["chat-footer"]} className={`d-flex justify-content-between align-items-center ${footerState}`}>
-        <div id={styles["chat-input"]} className="flex-grow-1">
-          <input type="text" value={this.state.messageInput} placeholder="Type your message here" onChange={this.handleMessageInputChange}/>
-          <button type="button" id={styles["send-btn"]} onClick={this.sendMessage}>
-            <img src={sendIcon} alt="Send Icon"/>
-          </button>
-        </div>
-        {/*
-        <button type="button" id={styles["photo-upload-btn"]}>
-          <img src={photoIcon} alt="Photo Icon" onClick={() => this.shareResource("photo")}/>
+  return (<div>
+    <div id={styles["chat-footer"]} className={`d-flex justify-content-between align-items-center ${footerState}`}>
+      <div id={styles["chat-input"]} className="flex-grow-1">
+        <input type="text" value={messageInput} placeholder="Type your message here" onChange={handleMessageInputChange}/>
+        <button type="button" id={styles["send-btn"]} onClick={sendMessage}>
+          <img src={sendIcon} alt="Send Icon"/>
         </button>
-        <button type="button" id={styles["video-upload-btn"]}>
-          <img src={videoIcon} alt="Video Icon" onClick={() => this.shareResource("video")}/>
-        </button>
-        */
-        }
       </div>
+      {/*
+      <button type="button" id={styles["photo-upload-btn"]}>
+        <img src={photoIcon} alt="Photo Icon" onClick={() => shareResource("photo")}/>
+      </button>
+      <button type="button" id={styles["video-upload-btn"]}>
+        <img src={videoIcon} alt="Video Icon" onClick={() => shareResource("video")}/>
+      </button>
+      */
+      }
+    </div>
 
-      {/* <ShareResourceResponseModal resourceType={this.state.resourceRequestType} show={this.state.requestModal} onHide={this.closeModal}/> */}
-    </div>);
+    {/* <ShareResourceResponseModal resourceType={resourceRequestType} show={requestModal} onHide={closeModal}/> */}
+  </div>);
+
+  function handleMessageInputChange(e) {
+    setMessageInput(e.target.value);
   }
 
-  handleMessageInputChange(e) {
-    this.setState({messageInput: e.target.value});
+  function sendMessage() {
+    chatSocket.messagesList.push({"message": messageInput, "party": "Sender"});
+    chatSocket.sendMessage(messageInput);
+    setMessageInput("");
   }
 
-  sendMessage() {
-    this.context.messagesList.push({"message": this.state.messageInput, "party": "Sender"});
-    this.context.sendMessage(this.state.messageInput);
-    this.setState({messageInput: ""});
-  }
-
-  // shareResource(resourceRequestType) {
-  //   this.setState({requestModal: true, resourceRequestType});
+  // function shareResource(resourceRequestType) {
+  //   setRequestModal(true);
+  //   setResourceRequestType(resourceRequestType);
   // }
   //
-  // closeModal() {
-  //   this.setState({requestModal: false});
+  // function closeModal() {
+  //   setRequestModal(false);
   // }
 }
 export default ChatFooter;

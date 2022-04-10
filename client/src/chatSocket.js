@@ -13,6 +13,7 @@ class ChatSocket {
 
   attach(observer) {
     this.observers.push(observer);
+    console.log(this.observers);
   }
 
   detach(observerToRemove) {
