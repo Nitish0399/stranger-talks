@@ -29,7 +29,7 @@ function ChatBody() {
   } else if (chatStatus === "Unavailable") {
     return <ChatBodyUnavailable/>;
   } else {
-    return <ChatBodyError/>;
+    return <ChatBodyDisconnected/>;
   }
 
 }
@@ -58,7 +58,7 @@ function ChatBodyConnected() {
     }
   }
 
-  return (<div id={styles["chat-body"]} className="mb-auto" ref={el => scrollToBottom(el)}>{chatMessages}</div>);
+  return (<div id={styles["chat-body"]} className="mt-2 mb-auto" ref={el => scrollToBottom(el)}>{chatMessages}</div>);
 }
 
 function ChatBodySearching() {
@@ -70,14 +70,23 @@ function ChatBodySearching() {
 }
 
 function ChatBodyUnavailable() {
+  const chatSocket = useContext(SocketContext);
+
   return (<div id={styles["chat-body"]}>
     <p id={styles["failed-chat-body-text"]}>
       No one is available at this moment to connect.
     </p>
+    <Link to="chat" className="d-block text-center">
+      <button id={styles['start-chat-btn']} onClick={connectStranger}>Retry again</button>
+    </Link>
   </div>);
+
+  function connectStranger() {
+    chatSocket.connectStranger();
+  }
 }
 
-function ChatBodyError() {
+function ChatBodyDisconnected() {
   const chatSocket = useContext(SocketContext);
 
   return (<div id={styles["chat-body"]}>
