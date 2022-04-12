@@ -16,7 +16,7 @@ npm install && cd client && npm install
 To run the project in development environment:
 
 ```
-npm run start
+npm run dev
 ```
 
 ## Build
