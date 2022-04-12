@@ -15,7 +15,7 @@ const server = http.createServer(app);
 app.use(express.static('client/build'));
 
 // All other GET requests not handled by API will return the React app
-app.get('/*', (req, res) => {
+app.get('*', (req, res) => {
   res.sendFile(__dirname, 'client/build/index.html');
 });
 

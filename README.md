@@ -33,6 +33,6 @@ npm run build
 Stranger Talks app uses the following technology:
 
 - [React] - A JavaScript library for UI
-- [Bootstrap] - A HTML, CSS, JS library to responsive web pages
+- [Bootstrap] - A HTML, CSS, JS library for responsive web pages
 - [node.js] - A server environment
 - [Socket.io] - For real-time communication b/w client and server
