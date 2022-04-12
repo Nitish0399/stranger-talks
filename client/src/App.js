@@ -10,7 +10,7 @@ import "./index.css";
 const {io} = require("socket.io-client");
 
 // Initializing socket.io
-const socket = io("http://localhost:3001");
+const socket = io(process.env.REACT_APP_SERVER_URL);
 
 function App() {
   const location = useLocation(); // get current component router path object
