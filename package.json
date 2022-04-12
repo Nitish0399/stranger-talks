@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "concurrently \"npm run start --prefix client\" \"nodemon app\"",
     "build": "cd client && npm install && npm run build",
-    "start": "node app"
+    "start": "node app",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
