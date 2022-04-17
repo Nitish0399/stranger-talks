@@ -1,4 +1,4 @@
-import {useContext, useState, useEffect} from 'react';
+import {useContext, useEffect} from 'react';
 import {Container} from 'react-bootstrap';
 import {SocketContext} from "../context.js";
 import ChatHeader from "../components/chat/ChatHeader";

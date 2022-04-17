@@ -70,7 +70,6 @@ function ChatBodySearching() {
 }
 
 function ChatBodyUnavailable() {
-  const chatSocket = useContext(SocketContext);
 
   return (<div id={styles["chat-body"]}>
     <p id={styles["failed-chat-body-text"]}>
@@ -84,7 +83,6 @@ function ChatBodyUnavailable() {
 }
 
 function ChatBodyDisconnected() {
-  const chatSocket = useContext(SocketContext);
 
   return (<div id={styles["chat-body"]}>
     <Link to="/chat" className="d-block text-center">
