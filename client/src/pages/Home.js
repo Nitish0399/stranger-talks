@@ -4,7 +4,6 @@ import {Container} from 'react-bootstrap';
 import {SocketContext} from "../context.js";
 import styles from "../styles/home.module.css";
 import chatIllustrationImage from "../images/chat-illustration.svg";
-import developerImage from "../images/developer-image.jpg";
 
 function Home() {
 
@@ -22,7 +21,7 @@ function Home() {
     return() => chatSocket.detach(onStrangerOnlineCountChange);
   })
 
-  return (<div className="pt-2 pb-5">
+  return (<div className="pt-2 pb-4">
     <Container className="d-flex justify-content-center justify-content-md-between justify-content-xl-evenly align-items-center flex-wrap flex-md-nowrap">
       <div id={styles['app-details']} className="text-center text-md-start">
         <h1 id={styles["app-title"]}>Talk with Strangers Online</h1>
@@ -49,15 +48,6 @@ function Home() {
         </div>
       </div>
     </Container>
-    {/*<Container>
-        <div className="d-flex justify-content-center justify-content-md-end justify-content-xl-center align-items-center flex-wrap my-4">
-          <span id={styles['developer-label']}>Designed & Developed By</span>
-          <div className="d-inline-block" id={styles['developer-data']}><img src={developerImage} alt="Developer"/>
-            <span id={styles['developer-name']}>Nitish Gattepalli</span>
-          </div>
-        </div>
-      </Container>*/
-    }
   </div>);
 
 }
