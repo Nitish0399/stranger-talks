@@ -1,19 +1,19 @@
 import {useContext, useState, useEffect} from 'react';
 import {SocketContext} from "../../context.js";
 import styles from "../../styles/chat.module.css";
-import ShareResourceRequestModal from "../modals/ShareResourceRequestModal";
-import ShareResourceResponseModal from "../modals/ShareResourceResponseModal";
+// import ShareResourceRequestModal from "../modals/ShareResourceRequestModal";
+// import ShareResourceResponseModal from "../modals/ShareResourceResponseModal";
 
 import sendIcon from "../../images/send-icon.svg";
-import photoIcon from "../../images/photo-icon.svg";
-import videoIcon from "../../images/video-icon.svg";
+// import photoIcon from "../../images/photo-icon.svg";
+// import videoIcon from "../../images/video-icon.svg";
 
 function ChatFooter() {
   const chatSocket = useContext(SocketContext);
   const [chatStatus, setChatStatus] = useState(chatSocket.chatStatus);
   const [messageInput, setMessageInput] = useState("");
-  const [requestModal, setRequestModal] = useState(false);
-  const [resourceRequestType, setResourceRequestType] = useState("photo");
+  // const [requestModal, setRequestModal] = useState(false);
+  // const [resourceRequestType, setResourceRequestType] = useState("photo");
 
   const onChatStatusChange = () => {
     setChatStatus(chatSocket.chatStatus);

@@ -4,7 +4,6 @@ import {Container} from 'react-bootstrap';
 import {SocketContext} from "../context.js";
 import styles from "../styles/home.module.css";
 import chatIllustrationImage from "../images/chat-illustration.svg";
-import developerImage from "../images/developer-image.jpg";
 
 function Home() {
 
@@ -49,15 +48,6 @@ function Home() {
         </div>
       </div>
     </Container>
-    {/*<Container>
-        <div className="d-flex justify-content-center justify-content-md-end justify-content-xl-center align-items-center flex-wrap my-4">
-          <span id={styles['developer-label']}>Designed & Developed By</span>
-          <div className="d-inline-block" id={styles['developer-data']}><img src={developerImage} alt="Developer"/>
-            <span id={styles['developer-name']}>Nitish Gattepalli</span>
-          </div>
-        </div>
-      </Container>*/
-    }
   </div>);
 
 }

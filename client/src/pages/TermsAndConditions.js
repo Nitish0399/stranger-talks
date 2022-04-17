@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
 import styles from "../styles/compliance.module.css";
 
 class TermsAndConditions extends React.Component {

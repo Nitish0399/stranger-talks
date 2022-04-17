@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React from "react";
 import {Outlet, useLocation} from "react-router-dom";
 import {useMediaQuery} from 'react-responsive';
 import Header from "./components/Header";
@@ -16,11 +16,9 @@ function App() {
   const location = useLocation(); // get current component router path object
   const isMobile = useMediaQuery({query: `(max-width: 425px)`});
 
-  // const [chatSocket, setChatSocket] = useState(new ChatSocket(io, socket));
-
   let hideHeader = false;
   // Hide header when screen is mobile and current path is "/chat"
-  if (location.pathname == '/chat' && isMobile) {
+  if (location.pathname === '/chat' && isMobile) {
     hideHeader = true;
   }
 
