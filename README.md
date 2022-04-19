@@ -27,6 +27,12 @@ To build the project:
 npm run build
 ```
 
+Then serve the app using:
+
+```
+npm run start
+```
+
 
 ## Technology
 

@@ -8,6 +8,7 @@ import chatIllustrationImage from "../images/chat-illustration.svg";
 function Home() {
 
   const chatSocket = useContext(SocketContext);
+
   const [strangersOnlineCount, setStrangersOnlineCount] = useState(chatSocket.strangersOnlineCount);
 
   const onStrangerOnlineCountChange = () => {
@@ -21,7 +22,7 @@ function Home() {
     return() => chatSocket.detach(onStrangerOnlineCountChange);
   })
 
-  return (<div className="pt-2 pb-5">
+  return (<div className="pt-2 pb-4">
     <Container className="d-flex justify-content-center justify-content-md-between justify-content-xl-evenly align-items-center flex-wrap flex-md-nowrap">
       <div id={styles['app-details']} className="text-center text-md-start">
         <h1 id={styles["app-title"]}>Talk with Strangers Online</h1>

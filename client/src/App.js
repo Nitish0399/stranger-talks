@@ -11,6 +11,7 @@ const {io} = require("socket.io-client");
 
 // Initializing socket.io
 const socket = io(process.env.REACT_APP_SERVER_URL);
+const chatSocket = new ChatSocket(io, socket);
 
 function App() {
   const location = useLocation(); // get current component router path object
@@ -29,7 +30,7 @@ function App() {
         : <Header/>
     }
     <div id="container">
-      <SocketContext.Provider value={new ChatSocket(io, socket)}>
+      <SocketContext.Provider value={chatSocket}>
         <Outlet/>
       </SocketContext.Provider>
     </div>
