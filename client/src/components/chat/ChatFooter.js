@@ -30,12 +30,12 @@ function ChatFooter() {
         sendMessage();
       }
     };
-    document.addEventListener("keydown", listener);
+    document.addEventListener("keyup", listener);
 
     // Detach observer when component unmounted
     return() => {
       chatSocket.detach(onChatStatusChange);
-      document.removeEventListener("keydown", listener);
+      document.removeEventListener("keyup", listener);
     };
   })
 
