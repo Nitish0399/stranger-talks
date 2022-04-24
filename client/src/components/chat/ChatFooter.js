@@ -25,7 +25,7 @@ function ChatFooter() {
 
     // Add keyboard "Enter" keydown event listener to send message
     const listener = event => {
-      if (event.code === "Enter" || event.code === "NumpadEnter") {
+      if (event.code === "Enter" || event.code === "NumpadEnter" || event.keyCode === 13) {
         event.preventDefault();
         sendMessage();
       }
