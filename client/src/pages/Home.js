@@ -8,6 +8,7 @@ import chatIllustrationImage from "../images/chat-illustration.svg";
 function Home() {
 
   const chatSocket = useContext(SocketContext);
+
   const [strangersOnlineCount, setStrangersOnlineCount] = useState(chatSocket.strangersOnlineCount);
 
   const onStrangerOnlineCountChange = () => {

@@ -1,5 +1,6 @@
 import {useContext, useState, useEffect} from 'react';
 import {SocketContext} from "../../context.js";
+import {Link} from "react-router-dom";
 import styles from "../../styles/chat.module.css";
 // import ShareResourceRequestModal from "../modals/ShareResourceRequestModal";
 // import ShareResourceResponseModal from "../modals/ShareResourceResponseModal";
@@ -27,8 +28,16 @@ function ChatFooter() {
   })
 
   let footerState = "d-block"; // footer visible
-  if (chatStatus !== "Connected") {
+  if (chatStatus !== "Connected" && chatStatus !== "Disconnected") {
     footerState = "d-none"; // footer hidden
+  }
+
+  if (chatStatus === "Disconnected") {
+    return (<div id={styles["chat-footer"]}>
+      <Link to="/chat" className="d-block text-center">
+        <button id={styles['start-chat-btn']}>Connect again</button>
+      </Link>
+    </div>);
   }
 
   return (<div>

@@ -23,18 +23,6 @@ class TermsAndConditions extends React.Component {
       </p>
 
       <h5>
-        <strong>Cookies</strong>
-      </h5>
-
-      <p>
-        We employ the use of cookies. By accessing Stranger Talks, you agreed to use cookies in agreement with the Stranger Talks's Privacy Policy.{" "}
-      </p>
-
-      <p>
-        Most interactive websites use cookies to let us retrieve the user’s details for each visit. Cookies are used by our website to enable the functionality of certain areas to make it easier for people visiting our website. Some of our affiliate/advertising partners may also use cookies.
-      </p>
-
-      <h5>
         <strong>License</strong>
       </h5>
 

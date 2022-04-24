@@ -28,8 +28,8 @@ function ChatBody() {
     return <ChatBodySearching/>;
   } else if (chatStatus === "Unavailable") {
     return <ChatBodyUnavailable/>;
-  } else {
-    return <ChatBodyDisconnected/>;
+  } else { // chatStatus === "Disconnected"
+    return <ChatBodyConnected/>; // to persist the previous chat messages
   }
 
 }
@@ -70,7 +70,6 @@ function ChatBodySearching() {
 }
 
 function ChatBodyUnavailable() {
-
   return (<div id={styles["chat-body"]}>
     <p id={styles["failed-chat-body-text"]}>
       No one is available at this moment to connect.
@@ -79,17 +78,6 @@ function ChatBodyUnavailable() {
       <button id={styles['start-chat-btn']}>Retry again</button>
     </Link>
   </div>);
-
-}
-
-function ChatBodyDisconnected() {
-
-  return (<div id={styles["chat-body"]}>
-    <Link to="/chat" className="d-block text-center">
-      <button id={styles['start-chat-btn']}>Connect again</button>
-    </Link>
-  </div>);
-
 }
 
 export default ChatBody;
