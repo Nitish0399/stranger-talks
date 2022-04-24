@@ -23,8 +23,20 @@ function ChatFooter() {
   useEffect(() => {
     chatSocket.attach(onChatStatusChange);
 
+    // Add keyboard "Enter" keydown event listener to send message
+    const listener = event => {
+      if (event.code === "Enter" || event.code === "NumpadEnter") {
+        event.preventDefault();
+        sendMessage();
+      }
+    };
+    document.addEventListener("keydown", listener);
+
     // Detach observer when component unmounted
-    return() => chatSocket.detach(onChatStatusChange);
+    return() => {
+      chatSocket.detach(onChatStatusChange);
+      document.removeEventListener("keydown", listener);
+    };
   })
 
   let footerState = "d-block"; // footer visible
@@ -34,7 +46,7 @@ function ChatFooter() {
 
   if (chatStatus === "Disconnected") {
     return (<div id={styles["chat-footer"]}>
-      <Link to="/chat" className="d-block text-center">
+      <Link to="/chat" onClick={() => window.location.reload()} className="d-block text-center">
         <button id={styles['start-chat-btn']}>Connect again</button>
       </Link>
     </div>);
@@ -67,9 +79,11 @@ function ChatFooter() {
   }
 
   function sendMessage() {
-    chatSocket.messagesList.push({"message": messageInput, "party": "Sender"});
-    chatSocket.sendMessage(messageInput);
-    setMessageInput("");
+    if (messageInput !== "") {
+      chatSocket.messagesList.push({"message": messageInput, "party": "Sender"});
+      chatSocket.sendMessage(messageInput);
+      setMessageInput("");
+    }
   }
 
   // function shareResource(resourceRequestType) {

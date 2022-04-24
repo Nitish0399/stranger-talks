@@ -74,7 +74,7 @@ function ChatBodyUnavailable() {
     <p id={styles["failed-chat-body-text"]}>
       No one is available at this moment to connect.
     </p>
-    <Link to="/chat" className="d-block text-center">
+    <Link to="/chat" onClick={() => window.location.reload()} className="d-block text-center">
       <button id={styles['start-chat-btn']}>Retry again</button>
     </Link>
   </div>);
