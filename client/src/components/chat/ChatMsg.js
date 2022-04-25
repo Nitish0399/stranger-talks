@@ -11,8 +11,8 @@ class ChatMsg extends React.Component {
     }
 
     return (<div className="d-flex">
-      <div className={`${styles["chat-msg"]} ${styles[msgStyleClassName]}`}>
-        <span>{this.props.message}</span>
+      <div className={`${styles["chat-msg"]} ${styles[msgStyleClassName]} text-break`}>
+        {this.props.message}
       </div>
     </div>);
   }

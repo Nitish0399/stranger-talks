@@ -240,7 +240,8 @@
 @media only screen and (max-width: 425px) {
   #chat-container {
     border-radius: 20px 20px 0 0;
-    height: 100vh;
+    position: fixed;
+    height: 100%;
     margin-bottom: 0;
   }
 
