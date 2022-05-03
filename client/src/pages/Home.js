@@ -1,15 +1,20 @@
 import {useContext, useState, useEffect} from 'react';
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import {Container} from 'react-bootstrap';
 import {SocketContext} from "../context.js";
+import {toast} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import styles from "../styles/home.module.css";
 import chatIllustrationImage from "../images/chat-illustration.svg";
 
 function Home() {
 
   const chatSocket = useContext(SocketContext);
+  const navigate = useNavigate();
 
   const [strangersOnlineCount, setStrangersOnlineCount] = useState(chatSocket.strangersOnlineCount);
+
+  const [chatButtonLoaderDisplay, setChatButtonLoaderDisplay] = useState(false)
 
   const onStrangerOnlineCountChange = () => {
     setStrangersOnlineCount(chatSocket.strangersOnlineCount);
@@ -22,15 +27,61 @@ function Home() {
     return() => chatSocket.detach(onStrangerOnlineCountChange);
   })
 
+  function navigateToChat(e) {
+    e.preventDefault();
+    setChatButtonLoaderDisplay(true);
+    window.grecaptcha.ready(function() {
+      window.grecaptcha.execute('6LeCNaMfAAAAAHoQ2IUECzObltAFDUCeOU6oSFVQ', {action: 'submit'}).then(function(token) {
+        verifyRecaptchaToken(token);
+      });
+    });
+  }
+
+  function verifyRecaptchaToken(token) {
+    fetch(`${process.env.REACT_APP_SERVER_URL}/api/v1/recaptcha/verify`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({'g_recaptcha_token': token})
+    }).then(response => response.json()).then(data => {
+      if (data.status === "Success") {
+        navigate('/chat');
+      } else {
+        throw new Error(data.message);
+      }
+    }).catch((error) => {
+      toast.error(error.message, {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: 'colored'
+      });
+    }).then(() => {
+      setChatButtonLoaderDisplay(false);
+    });
+  }
+
   return (<div className="pt-2 pb-4">
     <Container className="d-flex justify-content-center justify-content-md-between justify-content-xl-evenly align-items-center flex-wrap flex-md-nowrap">
       <div id={styles['app-details']} className="text-center text-md-start">
         <h1 id={styles["app-title"]}>Talk with Strangers Online</h1>
         <p id={styles["app-description"]}>Connect with people around the world. Have engaging communication by sharing photos and videos.
         </p>
-        <Link to="chat">
-          <button id={styles['start-chat-btn']}>Connect with a Stranger now</button>
-        </Link>
+
+        <button id={styles['start-chat-btn']} className="btn btn-primary" type="button" onClick={(e) => navigateToChat(e)}>
+          Connect with a Stranger now {
+            (chatButtonLoaderDisplay)
+              ? <span className="spinner-border spinner-border-sm ms-2" role="status" aria-hidden="true"></span>
+              : null
+          }
+
+        </button>
+
         <div id={styles['compliance-text']} className="mt-3">
           <p>By connecting to a stranger, you agree to our&nbsp;
             <Link to="terms-and-conditions">
