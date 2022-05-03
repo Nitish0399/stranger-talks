@@ -12,7 +12,7 @@ router.post("/verify", async (req, res) => {
   try {
     // recaptcha verify http request requires "application/x-www-form-urlencoded" headers
     const params = new URLSearchParams();
-    params.append('secret', '6LeCNaMfAAAAAFxgCS-9oIVu0TpWM6fXTYP9biHF');
+    params.append('secret', process.env.G_RECAPTCHA_SECRET_KEY);
     params.append('response', g_recaptcha_token);
 
     const response = await axios.post("https://www.google.com/recaptcha/api/siteverify", params);

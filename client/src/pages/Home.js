@@ -31,7 +31,7 @@ function Home() {
     e.preventDefault();
     setChatButtonLoaderDisplay(true);
     window.grecaptcha.ready(function() {
-      window.grecaptcha.execute('6LeCNaMfAAAAAHoQ2IUECzObltAFDUCeOU6oSFVQ', {action: 'submit'}).then(function(token) {
+      window.grecaptcha.execute(process.env.REACT_APP_G_RECAPTCHA_SITE_KEY, {action: 'submit'}).then(function(token) {
         verifyRecaptchaToken(token);
       });
     });
