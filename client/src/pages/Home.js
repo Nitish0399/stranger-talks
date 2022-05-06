@@ -6,6 +6,7 @@ import {toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import styles from "../styles/home.module.css";
 import chatIllustrationImage from "../images/chat-illustration.svg";
+import constants from "../config/constants.js";
 
 function Home() {
 
@@ -31,14 +32,14 @@ function Home() {
     e.preventDefault();
     setChatButtonLoaderDisplay(true);
     window.grecaptcha.ready(function() {
-      window.grecaptcha.execute(process.env.REACT_APP_G_RECAPTCHA_SITE_KEY, {action: 'submit'}).then(function(token) {
+      window.grecaptcha.execute(constants.G_RECAPTCHA_SITE_KEY, {action: 'submit'}).then(function(token) {
         verifyRecaptchaToken(token);
       });
     });
   }
 
   function verifyRecaptchaToken(token) {
-    fetch(`${process.env.REACT_APP_SERVER_URL}/api/v1/recaptcha/verify`, {
+    fetch(`${constants.APP_URL}/api/v1/recaptcha/verify`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
