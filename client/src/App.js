@@ -6,12 +6,13 @@ import Header from "./components/Header";
 import Footer from "./components/Footer.js";
 import {SocketContext} from "./context.js";
 import ChatSocket from "./chatSocket.js";
+import constants from "./config/constants.js";
 import "./index.css";
 
 const {io} = require("socket.io-client");
 
 // Initializing socket.io
-const socket = io(process.env.REACT_APP_SERVER_URL);
+const socket = io(constants.APP_URL);
 const chatSocket = new ChatSocket(io, socket);
 
 function App() {

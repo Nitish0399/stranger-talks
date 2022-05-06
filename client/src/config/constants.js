@@ -1,5 +1,5 @@
 const constants = {
-  "APP_URL": "http://strangertalks-stage-env.eba-vxqyqkfc.ap-south-1.elasticbeanstalk.com/",
+  "APP_URL": "http://localhost:3001",
   "G_RECAPTCHA_SITE_KEY": "6LeCNaMfAAAAAHoQ2IUECzObltAFDUCeOU6oSFVQ"
 };
 

@@ -1,9 +1,15 @@
 var express = require("express");
+const requestIp = require('request-ip');
 var router = express.Router();
 var recaptchaHandler = require("./handlers/recaptcha.js");
 
 router.use((req, res, next) => {
-  console.log("Time: ", Date.now());
+  let data = {
+    requestPath: req.originalUrl,
+    userIP: requestIp.getClientIp(req),
+    date: new Date().toISOString()
+  };
+  console.log("API request : ", data);
   next();
 });
 
