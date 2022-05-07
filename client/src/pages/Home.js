@@ -71,7 +71,7 @@ function Home() {
     <Container className="d-flex justify-content-center justify-content-md-between justify-content-xl-evenly align-items-center flex-wrap flex-md-nowrap">
       <div id={styles['app-details']} className="text-center text-md-start">
         <h1 id={styles["app-title"]}>Talk with Strangers Online</h1>
-        <p id={styles["app-description"]}>Connect with people around the world. Have engaging communication by sharing photos and videos.
+        <p id={styles["app-description"]}>Connect with people around the world. Have engaging communications by chatting live.
         </p>
 
         <button id={styles['start-chat-btn']} className="btn btn-primary" type="button" onClick={(e) => navigateToChat(e)}>

@@ -1,5 +1,5 @@
 module.exports = (io, socket, socketState) => {
-  console.log("Stranger connected to socket server", socket.id);
+  console.log("Chat Socket: Stranger connected to socket server, ", new Date().toISOString());
 
   increaseStrangerOnlineCount();
 
@@ -23,7 +23,7 @@ module.exports = (io, socket, socketState) => {
   /* --------------------- HANDLERS --------------------- */
 
   function connect() {
-    console.log("Stranger connecting to chat...");
+    console.log("Chat Socket: Stranger connecting to chat, ", new Date().toISOString());
 
     io.to(socket.id).emit("chat:searching"); // emit to socket
 
@@ -47,7 +47,7 @@ module.exports = (io, socket, socketState) => {
       let randomStrangerTimeout = socketState.strangersTimeouts[randomStranger];
       clearTimeout(randomStrangerTimeout);
 
-      console.log("Stranger connected", randomStranger);
+      console.log("Chat Socket: Stranger connected, ", new Date().toISOString());
       return;
     }
 
@@ -57,7 +57,7 @@ module.exports = (io, socket, socketState) => {
       // If stranger is not connected within set duration,
       // emit unavailable
       if (isStrangerChatActive() == false) {
-        console.log("Stranger could not connect to chat");
+        console.log("Chat Socket: Stranger could not connect to chat, ", new Date().toISOString());
         // Remove stranger from socketState.strangersAvailable array
         removeStrangerFromAvailableList(socket.id);
 
@@ -67,12 +67,10 @@ module.exports = (io, socket, socketState) => {
 
     // Save the timeout created for current socket, to clear it later if needed
     socketState.strangersTimeouts[socket.id] = timeout;
-
-    console.log(socketState.strangersAvailable);
   }
 
   function message(message) {
-    console.log("Strager chat message: " + message);
+    console.log("Chat Socket: Strager sent chat message, ", new Date().toISOString());
 
     let senderSocketId = socket.id;
     let receiverSocketId = socketState.strangersConnected[senderSocketId];
@@ -84,14 +82,14 @@ module.exports = (io, socket, socketState) => {
   }
 
   function emitStrangersOnlineCount() {
-    console.log("Strangers online: " + socketState.strangersOnlineCount);
+    console.log("Chat Socket: Strangers online count: " + socketState.strangersOnlineCount + ", ", new Date().toISOString());
 
     // Emit to socket the count of strangers online
     io.emit("chat:strangers-online", socketState.strangersOnlineCount);
   }
 
   function disconnect() {
-    console.log("Stranger disconnected the chat", socket.id);
+    console.log("Chat Socket: Stranger disconnected the chat, ", new Date().toISOString());
 
     emitStrangersOnlineCount();
 
@@ -119,9 +117,7 @@ module.exports = (io, socket, socketState) => {
 
   // Picks random stranger from list of strangers available to connect
   function getRandomStranger() {
-    return socketState.strangersAvailable[
-      Math.floor(Math.random() * socketState.strangersAvailable.length)
-    ];
+    return socketState.strangersAvailable[Math.floor(Math.random() * socketState.strangersAvailable.length)];
   }
 
   function removeStrangerFromAvailableList(strangerSocketId) {
