@@ -3,10 +3,10 @@ name: production
 on:
   push:
     branches:
-      - stage
+      - production
   pull_request:
     branches:
-      - stage
+      - production
 
 jobs:
   ci:
@@ -64,7 +64,7 @@ jobs:
           aws_access_key: ${{secrets.ACCESS_KEY_ID}}
           aws_secret_key: ${{secrets.SECRET_ACCESS_KEY}}
           application_name: Stranger Talks
-          environment_name: Strangertalks-stage-env
+          environment_name: Strangertalks-env
           region: ap-south-1
           version_label: "e-learn-${{ steps.format-time.outputs.replaced }}"
           deployment_package: deploy.zip
