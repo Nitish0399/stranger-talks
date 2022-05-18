@@ -32,3 +32,8 @@ body:hover {
 #container {
   flex: 1;
 }
+
+/* hide google recaptcha badge */
+.grecaptcha-badge {
+  visibility: hidden;
+}

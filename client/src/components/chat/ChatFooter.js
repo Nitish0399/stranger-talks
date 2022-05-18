@@ -1,4 +1,4 @@
-import {useContext, useState, useEffect} from 'react';
+import {useContext, useState, useEffect, useRef} from 'react';
 import {SocketContext} from "../../context.js";
 import {Link} from "react-router-dom";
 import styles from "../../styles/chat.module.css";
@@ -15,6 +15,7 @@ function ChatFooter() {
   const [messageInput, setMessageInput] = useState("");
   // const [requestModal, setRequestModal] = useState(false);
   // const [resourceRequestType, setResourceRequestType] = useState("photo");
+  const chatInput = useRef(null);
 
   const onChatStatusChange = () => {
     setChatStatus(chatSocket.chatStatus);
@@ -23,19 +24,19 @@ function ChatFooter() {
   useEffect(() => {
     chatSocket.attach(onChatStatusChange);
 
-    // Add keyboard "Enter" keydown event listener to send message
-    const listener = event => {
-      if (event.code === "Enter" || event.code === "NumpadEnter" || event.keyCode === 13) {
-        event.preventDefault();
-        sendMessage();
-      }
-    };
-    document.addEventListener("keyup", listener);
+    //  Add keyboard "Enter" keydown event listener to send message
+    // const listener = event => {
+    //   if (event.code === "Enter" || event.code === "NumpadEnter" || event.keyCode === 13) {
+    //     event.preventDefault();
+    //     sendMessage();
+    //   }
+    // };
+    // document.addEventListener("keyup", listener);
 
     // Detach observer when component unmounted
     return() => {
       chatSocket.detach(onChatStatusChange);
-      document.removeEventListener("keyup", listener);
+      // document.removeEventListener("keyup", listener);
     };
   })
 
@@ -55,7 +56,7 @@ function ChatFooter() {
   return (<div>
     <div id={styles["chat-footer"]} className={`d-flex justify-content-between align-items-center ${footerState}`}>
       <div id={styles["chat-input"]} className="flex-grow-1">
-        <input type="text" value={messageInput} placeholder="Type your message here" onChange={handleMessageInputChange}/>
+        <textarea value={messageInput} rows="1" placeholder="Type your message here" ref={chatInput} wrap="hard" onChange={handleMessageInputChange}></textarea>
         <button type="button" id={styles["send-btn"]} onClick={sendMessage}>
           <img src={sendIcon} alt="Send Icon"/>
         </button>
@@ -75,15 +76,20 @@ function ChatFooter() {
   </div>);
 
   function handleMessageInputChange(e) {
-    setMessageInput(e.target.value);
+    chatInput.current.style.height = "auto"; // auto resize chat input textarea
+    chatInput.current.style.height = (chatInput.current.scrollHeight) + "px"; // auto resize chat input textarea
+    setMessageInput(chatInput.current.value);
   }
 
   function sendMessage() {
-    if (messageInput !== "") {
-      chatSocket.messagesList.push({"message": messageInput, "party": "Sender"});
-      chatSocket.sendMessage(messageInput);
-      setMessageInput("");
+    let messageInputTrimmed = messageInput.trim();
+
+    if (messageInputTrimmed !== "") {
+      chatSocket.messagesList.push({"message": messageInputTrimmed, "party": "Sender"});
+      chatSocket.sendMessage(messageInputTrimmed);
     }
+    setMessageInput("");
+    chatInput.current.style.height = "auto"; // auto resize chat input textarea
   }
 
   // function shareResource(resourceRequestType) {

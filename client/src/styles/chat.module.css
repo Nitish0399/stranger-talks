@@ -59,6 +59,10 @@
   height: 25px;
 }
 
+.close-chat-icon:hover {
+  transform: scale(1.03);
+}
+
 /* Chat Body */
 
 #chat-body {
@@ -102,6 +106,10 @@
   text-align: center;
 }
 
+#start-chat-btn:hover {
+  transform: scale(1.01);
+}
+
 /* Chat Footer */
 
 #chat-footer {
@@ -115,7 +123,7 @@
   outline: none;
 }
 
-#chat-input input {
+#chat-input textarea {
   font-size: 16px;
   line-height: 28px;
   border: none;
@@ -123,6 +131,9 @@
   width: calc(100% - 35px);
   background: #efefef;
   outline: none;
+  resize: none;
+  vertical-align: middle;
+  max-height: 80px;
 }
 
 #send-btn {
@@ -164,6 +175,7 @@
   font-size: 14px;
   max-width: 300px;
   display: inline-block;
+  white-space: pre-wrap;
 }
 
 .sender-msg {
@@ -230,7 +242,7 @@
     max-width: 250px;
   }
 
-  #chat-input input {
+  #chat-input textarea {
     width: calc(100% - 35px);
     font-size: 14px;
     line-height: 25px;
@@ -283,7 +295,7 @@
     padding: 15px 15px;
   }
 
-  #chat-input input {
+  #chat-input textarea {
     width: calc(100% - 31px);
   }
 
