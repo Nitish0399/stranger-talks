@@ -93,9 +93,9 @@ function Home() {
         </div>
         <div id={styles['compliance-text']} className="mt-3">
           <p>This site is protected by reCAPTCHA and the Google&nbsp;
-            <a href="https://policies.google.com/privacy" target="_blank">Privacy Policy</a>
+            <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">Privacy Policy</a>
             &nbsp;and&nbsp;
-            <a href="https://policies.google.com/terms" target="_blank">Terms of Service</a>
+            <a href="https://policies.google.com/terms" target="_blank" rel="noopener noreferrer">Terms of Service</a>
             &nbsp;apply.
           </p>
         </div>
