@@ -41,6 +41,7 @@ class ChatSocket {
     this.socket.on("chat:connected", function() {
       console.log("Stranger Connected");
       this.chatStatus = "Connected";
+      this.messagesList = []; // clear messages list
       this.notify();
     }.bind(this));
 
