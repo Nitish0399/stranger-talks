@@ -73,7 +73,6 @@ function Home() {
         <h1 id={styles["app-title"]}>Talk with Strangers Online</h1>
         <p id={styles["app-description"]}>Connect with people around the world. Have engaging communications by chatting live.
         </p>
-
         <button id={styles['start-chat-btn']} className="btn btn-primary" type="button" onClick={(e) => navigateToChat(e)}>
           Connect with a Stranger now {
             (chatButtonLoaderDisplay)
@@ -90,6 +89,14 @@ function Home() {
             </Link>
             &nbsp;and&nbsp;
             <Link to="privacy-policy">Privacy Policy</Link>
+          </p>
+        </div>
+        <div id={styles['compliance-text']} className="mt-3">
+          <p>This site is protected by reCAPTCHA and the Google&nbsp;
+            <a href="https://policies.google.com/privacy" target="_blank">Privacy Policy</a>
+            &nbsp;and&nbsp;
+            <a href="https://policies.google.com/terms" target="_blank">Terms of Service</a>
+            &nbsp;apply.
           </p>
         </div>
       </div>
