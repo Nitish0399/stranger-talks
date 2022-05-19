@@ -6,6 +6,7 @@ import Home from "./pages/Home";
 import Chat from "./pages/Chat";
 import TermsAndConditions from "./pages/TermsAndConditions";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
+import Contact from "./pages/Contact";
 import NotFound from "./pages/NotFound";
 import reportWebVitals from "./reportWebVitals";
 import {BrowserRouter, Routes, Route} from "react-router-dom";
@@ -17,6 +18,7 @@ ReactDOM.render(<BrowserRouter>
       <Route path="chat" element={<Chat />}/>
       <Route path="terms-and-conditions" element={<TermsAndConditions />}/>
       <Route path="privacy-policy" element={<PrivacyPolicy />}/>
+      <Route path="contact" element={<Contact />}/>
     </Route>
     <Route path="*" element={<NotFound />}/>
   </Routes>
