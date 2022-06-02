@@ -1,3 +1,5 @@
+const nodemailer = require('nodemailer');
+
 module.exports = (io, socket, socketState) => {
   console.log("Chat Socket: Stranger connected to socket server, ", new Date().toISOString());
 
@@ -25,10 +27,12 @@ module.exports = (io, socket, socketState) => {
   function connect() {
     console.log("Chat Socket: Stranger connecting to chat, ", new Date().toISOString());
 
+    sendEmailToNotifyNewChat();
+
     io.to(socket.id).emit("chat:searching"); // emit to socket
 
-    disconnect();
     // disconnect earlier chat is exists
+    disconnect();
 
     if (socketState.strangersAvailable.length != 0) {
       // Pick random stranger
@@ -85,7 +89,10 @@ module.exports = (io, socket, socketState) => {
     console.log("Chat Socket: Strangers online count: " + socketState.strangersOnlineCount + ", ", new Date().toISOString());
 
     // Emit to socket the count of strangers online
-    io.emit("chat:strangers-online", socketState.strangersOnlineCount);
+    // io.emit("chat:strangers-online", socketState.strangersOnlineCount);
+
+    //Emit random count (for user retaining purpose)
+    io.emit("chat:strangers-online", Math.floor(Math.random() * 10) + 9 + socketState.strangersOnlineCount);
   }
 
   function disconnect() {
@@ -149,5 +156,33 @@ module.exports = (io, socket, socketState) => {
   function decreaseStrangerOnlineCount() {
     // Decrement the count of strangers online
     socketState.strangersOnlineCount--;
+  }
+
+  function sendEmailToNotifyNewChat() {
+    if (socketState.strangersOnlineCount == 1) {
+      let transport = nodemailer.createTransport({
+        host: 'smtp.gmail.com',
+        port: 465,
+        auth: {
+          user: process.env.NODE_MAILER_EMAIL,
+          pass: process.env.G_APP_PASSWORD
+        }
+      });
+      const emailData = {
+        from: process.env.NODE_MAILER_EMAIL, // Sender address
+        to: "nitish0399@hotmail.com", // List of recipients
+        subject: `User connecting to chat | Stranger Talks`, // Subject line
+        html: `
+        <b>Open app now to chat with stranger</b>
+      `
+      };
+      transport.sendMail(emailData, function(error, info) {
+        if (error) {
+          console.log(error);
+        } else {
+          console.log("User connecting to chat email sent to nitish0399@hotmail.com");
+        }
+      });
+    }
   }
 };
