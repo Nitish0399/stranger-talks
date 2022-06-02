@@ -8,8 +8,8 @@ let transport = nodemailer.createTransport({
   host: 'smtp.gmail.com',
   port: 465,
   auth: {
-    user: 'ngattepalli@gmail.com',
-    pass: 'dsuqxdurmjueojid'
+    user: process.env.NODE_MAILER_EMAIL,
+    pass: process.env.G_APP_PASSWORD
   }
 });
 
@@ -24,8 +24,8 @@ router.post("/", [
   }
 
   const emailData = {
-    from: 'ngattepalli@gmail.com', // Sender address
-    to: 'nitish0399@hotmail.com', // List of recipients
+    from: process.env.NODE_MAILER_EMAIL, // Sender address
+    to: process.env.NODE_MAILER_EMAIL, // List of recipients
     subject: `Message from ${fullName} | Stranger Talks`, // Subject line
     html: `
       <b>${fullName}</b> has contacted Stranger Talks.
