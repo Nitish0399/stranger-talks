@@ -6,9 +6,11 @@ import Home from "./pages/Home";
 import Chat from "./pages/Chat";
 import TermsAndConditions from "./pages/TermsAndConditions";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
+import Contact from "./pages/Contact";
 import NotFound from "./pages/NotFound";
 import reportWebVitals from "./reportWebVitals";
 import {BrowserRouter, Routes, Route} from "react-router-dom";
+import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 
 ReactDOM.render(<BrowserRouter>
   <Routes>
@@ -17,6 +19,7 @@ ReactDOM.render(<BrowserRouter>
       <Route path="chat" element={<Chat />}/>
       <Route path="terms-and-conditions" element={<TermsAndConditions />}/>
       <Route path="privacy-policy" element={<PrivacyPolicy />}/>
+      <Route path="contact" element={<Contact />}/>
     </Route>
     <Route path="*" element={<NotFound />}/>
   </Routes>
@@ -25,6 +28,7 @@ ReactDOM.render(<BrowserRouter>
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
+serviceWorkerRegistration.register();
 reportWebVitals();
 init();
 

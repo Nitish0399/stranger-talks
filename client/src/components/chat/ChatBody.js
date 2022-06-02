@@ -1,5 +1,5 @@
 import {useContext, useState, useEffect} from 'react';
-import {SocketContext} from "../../context.js";
+import {SocketContext} from "../../config/context.js";
 import styles from "../../styles/chat.module.css";
 import {Link} from "react-router-dom";
 import ChatMsg from "./ChatMsg";
