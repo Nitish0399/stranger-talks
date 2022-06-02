@@ -1,5 +1,5 @@
 import {useContext, useState, useEffect, useRef} from 'react';
-import {SocketContext} from "../../context.js";
+import {SocketContext} from "../../config/context.js";
 import {Link} from "react-router-dom";
 import styles from "../../styles/chat.module.css";
 // import ShareResourceRequestModal from "../modals/ShareResourceRequestModal";

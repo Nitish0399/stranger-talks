@@ -1,6 +1,6 @@
 import {useContext, useState, useEffect} from 'react';
 import {Link} from "react-router-dom";
-import {SocketContext} from "../../context.js";
+import {SocketContext} from "../../config/context.js";
 import styles from "../../styles/chat.module.css";
 import closeIcon from "../../images/close-icon.svg";
 import errorIcon from "../../images/error-icon.svg";

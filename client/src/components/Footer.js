@@ -8,7 +8,7 @@ function Footer() {
       <Link to="contact" className={styles['footer-links']}>Contact</Link>
       <Link to="privacy-policy" className={styles['footer-links']}>Privacy Policy</Link>
     </div>
-    <p>Stranger Talks | Copyright 2022</p>
+    <p>Stranger Talks | &#169; Copyright 2022</p>
   </footer>);
 
 }
