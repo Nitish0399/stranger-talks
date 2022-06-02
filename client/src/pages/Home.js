@@ -1,12 +1,14 @@
 import {useContext, useState, useEffect} from 'react';
 import {Link, useNavigate} from "react-router-dom";
 import {Container} from 'react-bootstrap';
-import {SocketContext} from "../context.js";
+import {SocketContext} from "../config/context.js";
 import {toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import styles from "../styles/home.module.css";
 import chatIllustrationImage from "../images/chat-illustration.svg";
 import constants from "../config/constants.js";
+import appTheme from "../config/appTheme.js";
+import ApiService from "../services/apiService.js";
 
 function Home() {
 
@@ -38,36 +40,24 @@ function Home() {
     });
   }
 
-  function verifyRecaptchaToken(token) {
-    fetch(`${constants.APP_URL}/api/v1/recaptcha/verify`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({'g_recaptcha_token': token})
-    }).then(response => response.json()).then(data => {
-      if (data.status === "Success") {
+  async function verifyRecaptchaToken(token) {
+    try {
+      const result = await ApiService.post("recaptcha/verify", {'g_recaptcha_token': token});
+
+      if (result.status === "Success") {
         navigate('/chat');
       } else {
-        throw new Error(data.message);
+        throw new Error(result.message);
       }
-    }).catch((error) => {
-      toast.error(error.message, {
-        position: "top-right",
-        autoClose: 3000,
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: 'colored'
-      });
-    }).then(() => {
+    } catch (error) {
+      console.log(error);
+      toast.error(error.message, appTheme.toast);
+    } finally {
       setChatButtonLoaderDisplay(false);
-    });
+    }
   }
 
-  return (<div className="pt-2 pb-4">
+  return (<div className="pt-2 pb-5">
     <Container className="d-flex justify-content-center justify-content-md-between justify-content-xl-evenly align-items-center flex-wrap flex-md-nowrap">
       <div id={styles['app-details']} className="text-center text-md-start">
         <h1 id={styles["app-title"]}>Talk with Strangers Online</h1>
