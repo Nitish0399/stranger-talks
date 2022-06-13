@@ -19,6 +19,27 @@ function Blog() {
     };
   });
 
+  const blogPostsHTML = blogPosts.map((post, index) => <section key={index}>
+    <h4>{post.heading}</h4>
+    <div dangerouslySetInnerHTML={{
+        __html: post.body
+      }}></div>
+    <button id={styles['start-chat-btn']} className="btn btn-primary" type="button" onClick={(e) => navigateToChat(e)}>
+      Connect with Stranger {
+        (chatButtonLoaderDisplay)
+          ? <span className="spinner-border spinner-border-sm ms-2" role="status" aria-hidden="true"></span>
+          : null
+      }
+    </button>
+  </section>);
+
+  return (<div className="container pt-1 pb-5">
+    <h1 id={styles['title']}>BLOG</h1>
+    <div id={styles['blog-container']}>
+      {blogPostsHTML}
+    </div>
+  </div>);
+
   function navigateToChat(e) {
     e.preventDefault();
     setChatButtonLoaderDisplay(true);
@@ -47,28 +68,6 @@ function Blog() {
       }
     }
   }
-
-  const blogPostsHTML = blogPosts.map((post, index) => <section key={index}>
-    <h4>{post.heading}</h4>
-    <div dangerouslySetInnerHTML={{
-        __html: post.body
-      }}></div>
-    <button id={styles['start-chat-btn']} className="btn btn-primary" type="button" onClick={(e) => navigateToChat(e)}>
-      Connect with Stranger {
-        (chatButtonLoaderDisplay)
-          ? <span className="spinner-border spinner-border-sm ms-2" role="status" aria-hidden="true"></span>
-          : null
-      }
-
-    </button>
-  </section>);
-
-  return (<div className="container pt-1 pb-5">
-    <h1 id={styles['title']}>BLOG</h1>
-    <div id={styles['blog-container']}>
-      {blogPostsHTML}
-    </div>
-  </div>);
 }
 
 export default Blog;
