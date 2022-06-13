@@ -64,7 +64,7 @@ function Home() {
         <p id={styles["app-description"]}>Connect with people around the world. Have engaging communications by chatting live.
         </p>
         <button id={styles['start-chat-btn']} className="btn btn-primary" type="button" onClick={(e) => navigateToChat(e)}>
-          Connect with a Stranger now {
+          Connect with Stranger {
             (chatButtonLoaderDisplay)
               ? <span className="spinner-border spinner-border-sm ms-2" role="status" aria-hidden="true"></span>
               : null
