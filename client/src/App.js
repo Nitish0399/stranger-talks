@@ -7,7 +7,7 @@ import Footer from "./components/Footer.js";
 import {SocketContext} from "./config/context.js";
 import ChatSocket from "./services/chatSocket.js";
 import constants from "./config/constants.js";
-import "./index.css";
+import "./styles/index.css";
 
 const {io} = require("socket.io-client");
 

@@ -19,10 +19,21 @@ footer {
 
 footer p {
   font-style: normal;
-  font-weight: 400;
-  font-size: 14px;
+  font-weight: 300;
+  font-size: 13px;
   line-height: 23px;
   color: #fff2f2;
   margin: 0;
   text-align: center;
+}
+
+/* -------------  Media Queries ------------ */
+
+@media only screen and (max-width: 425px) {
+  .footer-links {
+    margin: 0 20px 3px 20px;
+  }
+  footer p {
+    margin-top: 10px;
+  }
 }
