@@ -3,8 +3,9 @@ import styles from "../styles/footer.module.css";
 
 function Footer() {
   return (<footer>
-    <div className="d-flex justify-content-center align-items-center">
+    <div className="d-flex flex-wrap justify-content-center align-items-center">
       <Link to="terms-and-conditions" className={styles['footer-links']}>Terms & Conditions</Link>
+      <Link to="blog" className={styles['footer-links']}>Blog</Link>
       <Link to="contact" className={styles['footer-links']}>Contact</Link>
       <Link to="privacy-policy" className={styles['footer-links']}>Privacy Policy</Link>
     </div>
