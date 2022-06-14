@@ -9,6 +9,7 @@ import chatIllustrationImage from "../images/chat-illustration.svg";
 import constants from "../config/constants.js";
 import appTheme from "../config/appTheme.js";
 import ApiService from "../services/apiService.js";
+import {seo} from '../utils/seo';
 
 function Home() {
 
@@ -24,6 +25,8 @@ function Home() {
   }
 
   useEffect(() => {
+    seo();
+
     chatSocket.attach(onStrangerOnlineCountChange);
 
     // Detach observer when component unmounted
