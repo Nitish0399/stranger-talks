@@ -5,11 +5,13 @@ import ChatHeader from "../components/chat/ChatHeader";
 import ChatBody from "../components/chat/ChatBody";
 import ChatFooter from "../components/chat/ChatFooter";
 import styles from "../styles/chat.module.css";
+import {seo} from '../utils/seo';
 
 function Chat() {
   const chatSocket = useContext(SocketContext);
 
   useEffect(() => {
+    seo({title: 'Chat | Stranger Talks'});
     // Emit event to connect to stranger
     chatSocket.connectStranger();
 

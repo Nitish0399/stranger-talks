@@ -1,13 +1,18 @@
-import {useState} from 'react';
+import {useState, useEffect} from 'react';
 import styles from "../styles/contact.module.css";
 import {toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import contactIllustrationImage from "../images/contact-illustration.svg";
 import appTheme from "../config/appTheme.js";
 import ApiService from "../services/apiService.js";
+import {seo} from '../utils/seo';
 
 function Contact() {
-  const [sendButtonLoaderDisplay, setSendButtonLoaderDisplay] = useState(false)
+  const [sendButtonLoaderDisplay, setSendButtonLoaderDisplay] = useState(false);
+
+  useEffect(() => {
+    seo({title: 'Contact Us | Stranger Talks'});
+  });
 
   return (<div className="container pt-3 pb-5 d-flex justify-content-center justify-content-md-evenly align-items-center flex-wrap flex-md-nowrap">
     <div>

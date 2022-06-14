@@ -7,6 +7,7 @@ import {toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import appTheme from "../config/appTheme.js";
 import ApiService from "../services/apiService.js";
+import {seo} from '../utils/seo';
 
 function Blog() {
   const isMounted = useRef(true);
@@ -14,6 +15,7 @@ function Blog() {
   const [chatButtonLoaderDisplay, setChatButtonLoaderDisplay] = useState(false);
 
   useEffect(() => {
+    seo({title: 'Blog | Stranger Talks'});
     return() => {
       isMounted.current = false;
     };
