@@ -68,7 +68,7 @@ function ChatBodyConnected() {
     }
   }
 
-  return (<div id={styles["chat-body"]} className="mt-2 mb-auto" ref={el => scrollToBottom(el)}>{chatMessages}</div>);
+  return (<div id={styles["chat-body"]} className="py-2 mb-auto" ref={el => scrollToBottom(el)}>{chatMessages}</div>);
 }
 
 function ChatBodySearching() {
