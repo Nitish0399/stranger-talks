@@ -83,18 +83,20 @@ function ChatFooter() {
     chatInput.current.style.height = (chatInput.current.scrollHeight) + "px"; // auto resize chat input textarea
     setMessageInput(chatInput.current.value);
 
+    clearTimeout(typingMessageTimeout);
+
     if (!isTypingMessage) {
       // Emit typing event
       chatSocket.typingMessage(true);
       typingMessageTimeout = setTimeout(expireTypingMessage, 2000);
-    } else {
-      clearTimeout(typingMessageTimeout);
     }
 
     setIsTypingMessage(true);
   }
 
   function sendMessage() {
+    expireTypingMessage();
+
     let messageInputTrimmed = messageInput.trim();
 
     if (messageInputTrimmed !== "") {
