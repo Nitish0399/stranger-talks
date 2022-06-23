@@ -4,6 +4,7 @@ import styles from "../../styles/chat.module.css";
 import {Link} from "react-router-dom";
 import ChatMsg from "./ChatMsg";
 // import ChatMetaMsg from "./ChatMetaMsg";
+import ChatTypingIndicator from "./ChatTypingIndicator";
 import {Rings} from "react-loader-spinner";
 
 function ChatBody() {
@@ -42,6 +43,15 @@ function ChatBodyConnected() {
     let messages = chatSocket.messagesList.map((chatMessage, index) => {
       return (<ChatMsg key={index} message={chatMessage.message} msgType={chatMessage.party}/>);
     });
+
+    // Add ChatTypingIndicator is stranger is typing to the chatMessages
+    if (chatSocket.isStrangerTyping) {
+      messages.push(<ChatTypingIndicator key={messages.length}/>);
+    } else {
+      if (messages.length > 0 && messages[messages.length - 1].type === <ChatTypingIndicator/>.type) {
+        messages.pop(ChatTypingIndicator);
+      }
+    }
     setChatMessages(messages);
   }
 

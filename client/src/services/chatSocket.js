@@ -5,6 +5,7 @@ class ChatSocket {
     this.socket = socket;
     this.strangersOnlineCount = 0;
     this.chatStatus = "Searching";
+    this.isStrangerTyping = false;
     this.messagesList = []; // [{message : "Hello", party : "Sender"}, {message : "Hey", party : "Receiver"}]
     this.registerChatSocketListeners();
 
@@ -57,6 +58,12 @@ class ChatSocket {
       this.notify();
     }.bind(this));
 
+    this.socket.on("chat:typing", function(isStrangerTyping) {
+      console.log("Stranger is typing");
+      this.isStrangerTyping = isStrangerTyping;
+      this.notify();
+    }.bind(this));
+
     this.socket.on("chat:message", function(message) {
       console.log("Stranger Message Received: ", message);
       this.messagesList.push({message, "party": "Receiver"});
@@ -67,6 +74,12 @@ class ChatSocket {
   connectStranger() {
     console.log("Chat Connecting");
     this.socket.emit('chat:connect');
+  }
+
+  typingMessage(isStrangerTyping) {
+    console.log("Stranger is typing: ", isStrangerTyping);
+    this.socket.emit('chat:typing', isStrangerTyping);
+    this.notify();
   }
 
   sendMessage(message) {

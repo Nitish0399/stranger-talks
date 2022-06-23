@@ -13,6 +13,8 @@ module.exports = (io, socket, socketState) => {
 
   socket.on("chat:message", message);
 
+  socket.on("chat:typing", typing);
+
   socket.on("chat:disconnect", () => {
     disconnect();
   });
@@ -71,6 +73,18 @@ module.exports = (io, socket, socketState) => {
 
     // Save the timeout created for current socket, to clear it later if needed
     socketState.strangersTimeouts[socket.id] = timeout;
+  }
+
+  function typing(isStrangerTyping) {
+    console.log("Chat Socket: Strager is typing, ", new Date().toISOString());
+
+    let senderSocketId = socket.id;
+    let receiverSocketId = socketState.strangersConnected[senderSocketId];
+    if (receiverSocketId == null) {
+      io.to(senderSocketId).emit("chat:disconnect");
+      return;
+    }
+    io.to(receiverSocketId).emit("chat:typing", isStrangerTyping);
   }
 
   function message(message) {
