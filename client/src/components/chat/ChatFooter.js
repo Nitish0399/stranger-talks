@@ -15,6 +15,9 @@ function ChatFooter() {
   const [messageInput, setMessageInput] = useState("");
   // const [requestModal, setRequestModal] = useState(false);
   // const [resourceRequestType, setResourceRequestType] = useState("photo");
+  const [isTypingMessage, setIsTypingMessage] = useState(false);
+  var typingMessageTimeout;
+
   const chatInput = useRef(null);
 
   const onChatStatusChange = () => {
@@ -79,6 +82,16 @@ function ChatFooter() {
     chatInput.current.style.height = "auto"; // auto resize chat input textarea
     chatInput.current.style.height = (chatInput.current.scrollHeight) + "px"; // auto resize chat input textarea
     setMessageInput(chatInput.current.value);
+
+    if (!isTypingMessage) {
+      // Emit typing event
+      chatSocket.typingMessage(true);
+      typingMessageTimeout = setTimeout(expireTypingMessage, 2000);
+    } else {
+      clearTimeout(typingMessageTimeout);
+    }
+
+    setIsTypingMessage(true);
   }
 
   function sendMessage() {
@@ -90,6 +103,12 @@ function ChatFooter() {
     }
     setMessageInput("");
     chatInput.current.style.height = "auto"; // auto resize chat input textarea
+  }
+
+  function expireTypingMessage() {
+    setIsTypingMessage(false);
+    // Emit typing event
+    chatSocket.typingMessage(false);
   }
 
   // function shareResource(resourceRequestType) {

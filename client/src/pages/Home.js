@@ -35,12 +35,13 @@ function Home() {
 
   function navigateToChat(e) {
     e.preventDefault();
-    setChatButtonLoaderDisplay(true);
-    window.grecaptcha.ready(function() {
-      window.grecaptcha.execute(constants.G_RECAPTCHA_SITE_KEY, {action: 'submit'}).then(function(token) {
-        verifyRecaptchaToken(token);
-      });
-    });
+    navigate('/chat');
+    // setChatButtonLoaderDisplay(true);
+    // window.grecaptcha.ready(function() {
+    //   window.grecaptcha.execute(constants.G_RECAPTCHA_SITE_KEY, {action: 'submit'}).then(function(token) {
+    //     verifyRecaptchaToken(token);
+    //   });
+    // });
   }
 
   async function verifyRecaptchaToken(token) {
