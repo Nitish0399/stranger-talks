@@ -6,6 +6,7 @@ const {Server} = require("socket.io");
 require("dotenv").config();
 const socketHandler = require("./app/socket_handler.js");
 const SocketState = require("./app/models/socket_state.js");
+const ChatSocketHelper = require("./app/helpers/chat_socket.js");
 
 const PORT = process.env.PORT || 3001;
 
@@ -34,9 +35,10 @@ const io = new Server(server, {
 });
 
 const socketState = new SocketState();
+const chatSocketHelper = new ChatSocketHelper(socketState);
 
 io.on("connection", socket => {
-  socketHandler(io, socket, socketState);
+  socketHandler(io, socket, socketState, chatSocketHelper);
 });
 
 //  All other GET requests not handled by server will return the React app

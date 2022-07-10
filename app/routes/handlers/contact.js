@@ -1,6 +1,5 @@
 const express = require("express");
 const router = express.Router();
-const axios = require("axios");
 const nodemailer = require('nodemailer');
 const {body, validationResult} = require('express-validator');
 
