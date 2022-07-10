@@ -1,9 +1,10 @@
-const nodemailer = require('nodemailer');
+const axios = require("axios");
+const EmailHelper = require("./helpers/emailer.js");
 
-module.exports = (io, socket, socketState) => {
+module.exports = (io, socket, socketState, chatSocketHelper) => {
   console.log("Chat Socket: Stranger connected to socket server, ", new Date().toISOString());
 
-  increaseStrangerOnlineCount();
+  chatSocketHelper.increaseStrangerOnlineCount(socketState);
 
   emitStrangersOnlineCount();
 
@@ -20,7 +21,7 @@ module.exports = (io, socket, socketState) => {
   });
 
   socket.on("disconnect", () => {
-    decreaseStrangerOnlineCount();
+    chatSocketHelper.decreaseStrangerOnlineCount();
     disconnect();
   });
 
@@ -29,7 +30,9 @@ module.exports = (io, socket, socketState) => {
   function connect() {
     console.log("Chat Socket: Stranger connecting to chat, ", new Date().toISOString());
 
-    sendEmailToNotifyNewChat();
+    if (socketState.strangersOnlineCount == 1) {
+      EmailHelper.sendEmail("User connecting to chat | Stranger Talks", " <b>Open app now to chat with stranger</b>");
+    }
 
     io.to(socket.id).emit("chat:searching"); // emit to socket
 
@@ -38,13 +41,13 @@ module.exports = (io, socket, socketState) => {
 
     if (socketState.strangersAvailable.length != 0) {
       // Pick random stranger
-      let randomStranger = getRandomStranger();
+      let randomStranger = chatSocketHelper.getRandomStranger(socketState);
 
       // Map connected strangers
-      mapConnectedStrangers(socket.id, randomStranger);
+      chatSocketHelper.mapConnectedStrangers(socket.id, randomStranger);
 
       // Remove picked random stranger from socketState.strangersAvailable array
-      removeStrangerFromAvailableList(randomStranger);
+      chatSocketHelper.removeStrangerFromAvailableList(randomStranger);
 
       io.to(socket.id).emit("chat:connected");
       io.to(randomStranger).emit("chat:connected");
@@ -52,6 +55,10 @@ module.exports = (io, socket, socketState) => {
       // Clear timeout created for random stranger
       let randomStrangerTimeout = socketState.strangersTimeouts[randomStranger];
       clearTimeout(randomStrangerTimeout);
+
+      // Clear chatbot timeout created for random stranger
+      let randomStrangerChatBotTimeout = socketState.strangersChatBotTimeouts[randomStranger];
+      clearTimeout(randomStrangerChatBotTimeout);
 
       console.log("Chat Socket: Stranger connected, ", new Date().toISOString());
       return;
@@ -62,21 +69,48 @@ module.exports = (io, socket, socketState) => {
     const timeout = setTimeout(() => {
       // If stranger is not connected within set duration,
       // emit unavailable
-      if (isStrangerChatActive() == false) {
+      if (chatSocketHelper.isStrangerChatActive(socket.io) == false) {
         console.log("Chat Socket: Stranger could not connect to chat, ", new Date().toISOString());
         // Remove stranger from socketState.strangersAvailable array
-        removeStrangerFromAvailableList(socket.id);
+        chatSocketHelper.removeStrangerFromAvailableList(socket.id);
 
         io.to(socket.id).emit("chat:unavailable");
       }
     }, process.env.STRANGER_SEARCH_DURATION);
 
+    const chatBotTimeout = setTimeout(() => {
+      // If stranger is not connected within set duration,
+      // connet the stranger to chatbot
+      if (chatSocketHelper.isStrangerChatActive(socket.io) == false) {
+        console.log("Chat Socket: Stranger connected to chat bot, ", new Date().toISOString());
+        // Add stranger to chatbot list
+        socketState.strangersConnectedToChatbot.push(socket.id);
+        io.to(socket.id).emit("chat:connected");
+
+        // Send "Hi" message to stranger if they dont send a message after 5 seconds
+        setTimeout(() => {
+          sendFirstChatbotMessage(socket.id);
+        }, 5000);
+
+        // Clear timeout created for random stranger
+        let randomStrangerTimeout = socketState.strangersTimeouts[socket.id];
+        clearTimeout(randomStrangerTimeout);
+
+        EmailHelper.sendEmail("User connected to Chatbot | Stranger Talks", "<b>A stranger is connected to chatbot</b>");
+
+      }
+    }, 6000);
+
     // Save the timeout created for current socket, to clear it later if needed
     socketState.strangersTimeouts[socket.id] = timeout;
+
+    // Save the chatbot timeout created for current socket, to clear it later if needed
+    socketState.strangersChatBotTimeouts[socket.id] = chatBotTimeout;
+
   }
 
   function typing(isStrangerTyping) {
-    console.log("Chat Socket: Strager is typing, ", new Date().toISOString());
+    console.log("Chat Socket: Stranger is typing, ", new Date().toISOString());
 
     let senderSocketId = socket.id;
     let receiverSocketId = socketState.strangersConnected[senderSocketId];
@@ -89,6 +123,12 @@ module.exports = (io, socket, socketState) => {
 
   function message(message) {
     console.log("Chat Socket: Strager sent chat message, ", new Date().toISOString());
+
+    // if the stranger is connected to chatbot
+    if (socketState.strangersConnectedToChatbot.includes(socket.id)) {
+      sendChatbotResponse(message, socket.id);
+      return;
+    }
 
     let senderSocketId = socket.id;
     let receiverSocketId = socketState.strangersConnected[senderSocketId];
@@ -115,88 +155,80 @@ module.exports = (io, socket, socketState) => {
     emitStrangersOnlineCount();
 
     // If stranger is connected to another stranger before disconnecting
-    if (isStrangerChatActive()) {
+    if (chatSocketHelper.isStrangerChatActive(socket.io)) {
       var randomStranger = socketState.strangersConnected[socket.id];
 
       // Remove mapping of connected strangers
-      deMapConnectedStrangers(socket.id, randomStranger);
+      chatSocketHelper.deMapConnectedStrangers(socket.id, randomStranger);
 
       io.to(socket.id).emit("chat:disconnected");
       io.to(randomStranger).emit("chat:disconnected");
     }
 
     // Remove stranger from socketState.strangersAvailable array
-    removeStrangerFromAvailableList(socket.id);
+    chatSocketHelper.removeStrangerFromAvailableList(socket.id);
+
+    // Email chat messages if stranger connected to chatbot
+    if (socketState.strangerChatbotMessages[socket.id] != undefined) 
+      sendEmailToNotifyStrangerChatbotMessages(socket.id);
+    
+    // Remove stranger from socketState.strangersConnectedToChatbot array
+    chatSocketHelper.removeStrangerFromChatbotList(socket.id);
 
     // Remove connected random stranger from socketState.strangersAvailable array if undefined
     if (typeof randomStranger != "undefined") {
-      removeStrangerFromAvailableList(randomStranger);
+      chatSocketHelper.removeStrangerFromAvailableList(randomStranger);
     }
   }
 
   /* --------------------- HELPERS --------------------- */
 
-  // Picks random stranger from list of strangers available to connect
-  function getRandomStranger() {
-    return socketState.strangersAvailable[Math.floor(Math.random() * socketState.strangersAvailable.length)];
-  }
-
-  function removeStrangerFromAvailableList(strangerSocketId) {
-    const index = socketState.strangersAvailable.indexOf(strangerSocketId);
-    if (index > -1) {
-      socketState.strangersAvailable.splice(index, 1); // 2nd parameter means remove one item only
+  function sendChatbotResponse(message, strangerSocketId) {
+    if (socketState.strangerChatbotMessages[strangerSocketId] === undefined) {
+      socketState.strangerChatbotMessages[strangerSocketId] = [];
     }
+    // Store chat messages
+    socketState.strangerChatbotMessages[strangerSocketId].push({"sender": "Stranger", "message": message});
+
+    // Emit typing event after 2 seconds
+    setTimeout(function() {
+      io.to(strangerSocketId).emit("chat:typing", true);
+    }, 2000);
+
+    axios.get(`http://api.brainshop.ai/get?bid=167785&key=YeHfLoiHjSvbjqSs&uid=${strangerSocketId}&msg=${message}`).then(function(response) {
+      // Send message to stranger after 5 seconds
+      setTimeout(function() {
+        io.to(strangerSocketId).emit("chat:typing", false);
+        io.to(strangerSocketId).emit("chat:message", response.data.cnt);
+      }, 5000);
+      socketState.strangerChatbotMessages[strangerSocketId].push({"sender": "Chatbot", "message": response.data.cnt});
+    }).catch(function(error) {
+      // handle error
+      console.log("Chat Socket: Error from chatbot : ", error.response.data, " , ", new Date().toISOString());
+      io.to(strangerSocketId).emit("chat:disconnected");
+      // Remove stranger from socketState.strangersConnectedToChatbot array
+      chatSocketHelper.removeStrangerFromChatbotList(strangesocketState, rSocketId);
+    });
   }
 
-  function isStrangerChatActive() {
-    return socketState.strangersConnected.hasOwnProperty(socket.id);
+  function sendFirstChatbotMessage(strangerSocketId) {
+    io.to(strangerSocketId).emit("chat:typing", true);
+    setTimeout(function() {
+      if (socketState.strangerChatbotMessages[strangerSocketId] === undefined) {
+        io.to(strangerSocketId).emit("chat:typing", false);
+        io.to(strangerSocketId).emit("chat:message", "Hi");
+      }
+    }, 1000);
   }
 
-  function mapConnectedStrangers(stranger1, stranger2) {
-    socketState.strangersConnected[stranger1] = stranger2;
-    socketState.strangersConnected[stranger2] = stranger1;
-  }
-
-  function deMapConnectedStrangers(stranger1, stranger2) {
-    delete socketState.strangersConnected[stranger1];
-    delete socketState.strangersConnected[stranger2];
-  }
-
-  function increaseStrangerOnlineCount() {
-    // Increment the count of strangers online
-    socketState.strangersOnlineCount++;
-  }
-
-  function decreaseStrangerOnlineCount() {
-    // Decrement the count of strangers online
-    socketState.strangersOnlineCount--;
-  }
-
-  function sendEmailToNotifyNewChat() {
-    if (socketState.strangersOnlineCount == 1) {
-      let transport = nodemailer.createTransport({
-        host: 'smtp.gmail.com',
-        port: 465,
-        auth: {
-          user: process.env.NODE_MAILER_EMAIL,
-          pass: process.env.G_APP_PASSWORD
-        }
-      });
-      const emailData = {
-        from: process.env.NODE_MAILER_EMAIL, // Sender address
-        to: "nitish0399@hotmail.com", // List of recipients
-        subject: `User connecting to chat | Stranger Talks`, // Subject line
-        html: `
-        <b>Open app now to chat with stranger</b>
-      `
-      };
-      transport.sendMail(emailData, function(error, info) {
-        if (error) {
-          console.log(error);
-        } else {
-          console.log("User connecting to chat email sent to nitish0399@hotmail.com");
-        }
-      });
+  function sendEmailToNotifyStrangerChatbotMessages(strangerSocketId) {
+    let chatMessages = socketState.strangerChatbotMessages[strangerSocketId];
+    let emailBody = "";
+    for (let message of chatMessages) {
+      emailBody += "<b>" + message["sender"] + "</b> : " + message["message"] + "<br>"
     }
+    EmailHelper.sendEmail("User and Chatbot chat | Stranger Talks", emailBody);
+    // Remove chat messages
+    delete socketState.strangerChatbotMessages[strangerSocketId];
   }
 };
