@@ -69,7 +69,7 @@ module.exports = (io, socket, socketState, chatSocketHelper) => {
     const timeout = setTimeout(() => {
       // If stranger is not connected within set duration,
       // emit unavailable
-      if (chatSocketHelper.isStrangerChatActive(socket.io) == false) {
+      if (chatSocketHelper.isStrangerChatActive(socket.id) == false) {
         console.log("Chat Socket: Stranger could not connect to chat, ", new Date().toISOString());
         // Remove stranger from socketState.strangersAvailable array
         chatSocketHelper.removeStrangerFromAvailableList(socket.id);
@@ -81,10 +81,14 @@ module.exports = (io, socket, socketState, chatSocketHelper) => {
     const chatBotTimeout = setTimeout(() => {
       // If stranger is not connected within set duration,
       // connet the stranger to chatbot
-      if (chatSocketHelper.isStrangerChatActive(socket.io) == false) {
+      if (chatSocketHelper.isStrangerChatActive(socket.id) == false) {
         console.log("Chat Socket: Stranger connected to chat bot, ", new Date().toISOString());
         // Add stranger to chatbot list
         socketState.strangersConnectedToChatbot.push(socket.id);
+
+        // Remove picked random stranger from socketState.strangersAvailable array
+        chatSocketHelper.removeStrangerFromAvailableList(socket.id);
+
         io.to(socket.id).emit("chat:connected");
 
         // Send "Hi" message to stranger if they dont send a message after 5 seconds
@@ -155,7 +159,7 @@ module.exports = (io, socket, socketState, chatSocketHelper) => {
     emitStrangersOnlineCount();
 
     // If stranger is connected to another stranger before disconnecting
-    if (chatSocketHelper.isStrangerChatActive(socket.io)) {
+    if (chatSocketHelper.isStrangerChatActive(socket.id)) {
       var randomStranger = socketState.strangersConnected[socket.id];
 
       // Remove mapping of connected strangers
