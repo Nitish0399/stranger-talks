@@ -30,9 +30,9 @@ module.exports = (io, socket, socketState, chatSocketHelper) => {
   function connect() {
     console.log("Chat Socket: Stranger connecting to chat, ", new Date().toISOString());
 
-    if (socketState.strangersOnlineCount == 1) {
-      EmailHelper.sendEmail("User connecting to chat | Stranger Talks", " <b>Open app now to chat with stranger</b>");
-    }
+    // if (socketState.strangersOnlineCount == 1) {
+    EmailHelper.sendEmail("User connecting to chat | Stranger Talks", " <b>Open app now to chat with stranger</b>");
+    // }
 
     io.to(socket.id).emit("chat:searching"); // emit to socket
 
@@ -103,7 +103,7 @@ module.exports = (io, socket, socketState, chatSocketHelper) => {
         EmailHelper.sendEmail("User connected to Chatbot | Stranger Talks", "<b>A stranger is connected to chatbot</b>");
 
       }
-    }, 6000);
+    }, 10000);
 
     // Save the timeout created for current socket, to clear it later if needed
     socketState.strangersTimeouts[socket.id] = timeout;
